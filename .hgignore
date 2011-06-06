@@ -1,0 +1,6 @@
+syntax: glob
+*.suo
+[bB]in/
+obj/
+ClientBin/
+*.user

@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="MusicRater.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="67*" />
+            <RowDefinition Height="136*" />
+            <RowDefinition Height="97*" />
+        </Grid.RowDefinitions>
+        <ListBox Margin="5" x:Name="listBox1" Grid.Row="1" ItemsSource="{Binding Tracks}" SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Author}" />
+                        <TextBlock Text="{Binding Title}" />
+                        <Slider Minimum="0" Maximum="100" SmallChange="10" Width="100" Value="{Binding Rating, Mode=TwoWay}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <MediaElement x:Name="mediaElement1" />
+        <Button Content="Play" Height="23" HorizontalAlignment="Left" Margin="5,12,0,0" Name="button1" VerticalAlignment="Top" Width="75" Command="{Binding PlayCommand}"/>
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="120,16,0,0" Name="textBlock1" Text="{Binding BufferingProgress}" VerticalAlignment="Top" />
+    </Grid>
+</UserControl>
