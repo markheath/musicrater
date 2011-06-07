@@ -134,7 +134,7 @@ namespace MusicRater
                     total += rating.Value * rating.Criteria.Weight;
                 }
                 Debug.WriteLine("Total: {0}, Max: {1}", total, max);
-                return total / (double)max;
+                return total * 100.0 / max;
             }
         }
     }

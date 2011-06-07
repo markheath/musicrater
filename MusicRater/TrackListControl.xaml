@@ -13,8 +13,8 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Author}" Foreground="{Binding TextBrush}" FontWeight="Bold" Width="120"/>
                         <TextBlock Text="{Binding Title}" Foreground="{Binding TextBrush}" Width="220"/>
-                        <ProgressBar Minimum="0" Maximum="1" Width="100" Value="{Binding Rating}" />
-                        <TextBlock Text="{Binding Listens}" Foreground="{Binding TextBrush}" Width="15" />
+                        <ProgressBar Minimum="0" Maximum="100" Width="100" Value="{Binding Rating}" />
+                        <TextBlock Margin="5,0" Text="{Binding Rating, StringFormat=\{0:0.\}%}" FontWeight="Bold" Foreground="{Binding TextBrush}" Width="30" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

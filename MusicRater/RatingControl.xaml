@@ -16,6 +16,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontFamily="Verdana" FontWeight="Bold" Foreground="White" Text="{Binding Name}" Width="100"/>
                             <Slider Margin="10,0"  Value="{Binding Value, Mode=TwoWay}" Minimum="0" Maximum="10" Width="100"/>
+                            <TextBlock Margin="10,0" FontFamily="Verdana" FontWeight="Bold" Foreground="White" Text="{Binding Value}" />
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -35,6 +36,9 @@
             <StackPanel Orientation="Horizontal" Margin="10,5">
                 <TextBlock Text="Exclude" FontFamily="Verdana" Foreground="White"/>
                 <CheckBox Margin="10,0" IsChecked="{Binding IsExcluded, Mode=TwoWay}" />
+                <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" Text="Listens:" />
+                <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" FontWeight="Bold" Text="{Binding Listens}" />
+
             </StackPanel>
         </StackPanel>
     </Border>
