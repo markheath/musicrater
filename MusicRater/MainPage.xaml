@@ -25,18 +25,18 @@
         </ListBox>
         <MediaElement x:Name="mediaElement1" Margin="0,0,0,136" Grid.RowSpan="2" />
         <StackPanel Orientation="Horizontal">
-            <Button Height="23" Margin="2" Width="23" Command="{Binding PlayCommand}">
-                <Path Fill="Black" Data="M 0,0 l 2,1 l -2,1 Z" Stretch="UniformToFill" />
+            <Button Style="{StaticResource MarkRoundButton}" Height="32" Margin="2" Width="32" Command="{Binding PlayCommand}">
+                <Path Fill="Black" Data="M 0,0 l 2,1 l -2,1 Z" Stretch="UniformToFill" Width="16" Height="16" />
             </Button>
-            <Button Height="23" Margin="2" Width="23" Command="{Binding PauseCommand}">
-                <Path Fill="Black" Data="M 0,0 h 1 v 2 h -1 Z M 1.5,0 h 1 v 2 h -1 Z" Stretch="Fill" />
+            <Button Style="{StaticResource MarkRoundButton}" Height="32" Margin="2" Width="32" Command="{Binding PauseCommand}">
+                <Path Fill="Black" Data="M 0,0 h 1 v 2 h -1 Z M 1.5,0 h 1 v 2 h -1 Z" Stretch="Fill" Width="16" Height="16" />
             </Button>
-            <Button Content="Next" Height="23" Margin="5" Width="75" Command="{Binding NextCommand}"/>
-            <Button Content="Prev" Height="23" Margin="5" Width="75" Command="{Binding PrevCommand}"/>
-            <Button Content="Rand" Height="23" Margin="5" Width="75" Command="{Binding RandCommand}"/>
-            <Button Content="Anon" Height="23" Margin="5" Width="75" Command="{Binding AnonCommand}"/>
-            <Button Content="Hide" Height="23" Margin="5" Width="75" Command="{Binding HideCommand}"/>
-            <Button Content="Restore" Height="23" Margin="5" Width="75" Command="{Binding HideCommand}"/>
+            <Button Style="{StaticResource MarkRoundButton}" Content="Next" Height="23" Margin="5" Width="75" Command="{Binding NextCommand}"/>
+            <Button Style="{StaticResource MarkRoundButton}" Content="Prev" Height="23" Margin="5" Width="75" Command="{Binding PrevCommand}"/>
+            <Button Style="{StaticResource MarkRoundButton}" Content="Rand" Height="23" Margin="5" Width="75" Command="{Binding RandCommand}"/>
+            <Button Style="{StaticResource MarkRoundButton}" Content="Anon" Height="23" Margin="5" Width="75" Command="{Binding AnonCommand}"/>
+            <Button Style="{StaticResource MarkRoundButton}" Content="Hide" Height="23" Margin="5" Width="75" Command="{Binding HideCommand}"/>
+            <Button Style="{StaticResource MarkRoundButton}" Content="Restore" Height="23" Margin="5" Width="75" Command="{Binding HideCommand}"/>
         </StackPanel>
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="120,16,0,0" Name="textBlock1" Text="{Binding BufferingProgress}" VerticalAlignment="Top" />
         <sdk:Label Height="28" Margin="5,0,0,0" Name="label1" VerticalAlignment="Top" Foreground="Red" Content="{Binding ErrorMessage}" Grid.Row="1" />
