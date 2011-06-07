@@ -97,6 +97,7 @@ namespace MusicRater
 
         void LoadTrackList(string xml, string prefix)
         {
+            List<Track> tracks = new List<Track>();
             List<Criteria> criteria = new List<Criteria>();
             criteria.Add(new Criteria("Song Writing"));
             criteria.Add(new Criteria("Sounds"));
@@ -130,11 +131,30 @@ namespace MusicRater
                     {
                         t.SubRatings.Add(new Rating() { Criteria = c });
                     }
-                    this.tracksInternal.Add(t);
+                    tracks.Add(t);
                 }
+            }
+            Shuffle(tracks, new Random());
+            foreach (var t in tracks)
+            {
+                tracksInternal.Add(t);
             }
             this.Tracks.View.MoveCurrentToFirst();
         }
+
+        public static void Shuffle(IList<Track> list, Random rng)
+        {
+            // Note i > 0 to avoid final pointless iteration
+            for (int i = list.Count - 1; i > 0; i--)
+            {
+                // Swap element "i" with a random earlier element it (or itself)
+                int swapIndex = rng.Next(i + 1);
+                Track tmp = list[i];
+                list[i] = list[swapIndex];
+                list[swapIndex] = tmp;
+            }
+        }
+
 
         private void Play()
         {            
