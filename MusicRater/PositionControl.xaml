@@ -8,6 +8,6 @@
     
     <Grid x:Name="LayoutRoot">
         <ProgressBar Margin="5,0,5,0" Value="{Binding DownloadProgress}" />
-        <Slider Value="{Binding PlaybackPosition, Mode=TwoWay}" />
+        <Slider Value="{Binding PlaybackPosition, Mode=TwoWay}" Maximum="{Binding Duration}" />
     </Grid>
 </UserControl>

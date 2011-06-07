@@ -16,23 +16,31 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Windows.Data;
 using System.Collections.Generic;
+using System.Windows.Threading;
 
 namespace MusicRater
 {
     public class MainPageViewModel : ViewModelBase
     {
         private MediaElement me;
-        private Track selectedTrack;
         private string errorMessage;
         private ObservableCollection<Track> tracksInternal; // this technique from http://www.silverlightplayground.org/post/2009/07/18/Use-CollectionViewSource-effectively-in-MVVM-applications.aspx
+        private DispatcherTimer timer;
 
         public MainPageViewModel(MediaElement me)
         {
             this.me = me; // new MediaElement();            
             this.me.BufferingProgressChanged += (s, e) => { this.BufferingProgress = me.BufferingProgress; RaisePropertyChanged("BufferingProgress"); };
             this.me.MediaFailed += (s, e) => this.ErrorMessage = e.ErrorException.Message;
+            this.me.MediaOpened += me_MediaOpened;
             this.me.MediaEnded += (s, e) => { SelectedTrack.Listens++; Next(); };
             this.me.DownloadProgressChanged += (s, e) => { this.DownloadProgress = me.DownloadProgress * 100; RaisePropertyChanged("DownloadProgress"); };
+
+            this.timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(500);
+            timer.Tick += new EventHandler(timer_Tick);
+            timer.Start();
+
             WebClient wc = new WebClient();
             Uri trackListUri = new Uri("http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml", UriKind.Absolute);
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
@@ -45,6 +53,34 @@ namespace MusicRater
             this.PauseCommand = new RelayCommand(() => Pause());
             this.NextCommand = new RelayCommand(() => Next());
             this.PrevCommand = new RelayCommand(() => Prev());
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            if (me.CurrentState == MediaElementState.Playing)
+            {
+                this.RaisePropertyChanged("PlaybackPosition");
+            }
+        }
+
+        void me_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            this.Duration = me.NaturalDuration.TimeSpan.TotalSeconds;
+            RaisePropertyChanged("Duration");
+        }
+
+        public double Duration { get; set; }
+        
+        public double PlaybackPosition
+        {
+            get
+            {
+                return this.me.Position.TotalSeconds;
+            }
+            set
+            {
+                this.me.Position = TimeSpan.FromSeconds(value);
+            }
         }
 
         void wc_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
