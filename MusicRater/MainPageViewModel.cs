@@ -32,6 +32,7 @@ namespace MusicRater
             this.me.BufferingProgressChanged += (s, e) => { this.BufferingProgress = me.BufferingProgress; RaisePropertyChanged("BufferingProgress"); };
             this.me.MediaFailed += (s, e) => this.ErrorMessage = e.ErrorException.Message;
             this.me.MediaEnded += (s, e) => { SelectedTrack.Listens++; Next(); };
+            this.me.DownloadProgressChanged += (s, e) => { this.DownloadProgress = me.DownloadProgress * 100; RaisePropertyChanged("DownloadProgress"); };
             WebClient wc = new WebClient();
             Uri trackListUri = new Uri("http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml", UriKind.Absolute);
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
@@ -132,6 +133,7 @@ namespace MusicRater
         }
 
         public double BufferingProgress { get; private set; }
+        public double DownloadProgress { get; private set; }
         public CollectionViewSource Tracks { get; private set; }
         public ICommand PlayCommand { get; private set; }
         public ICommand PauseCommand { get; private set; }

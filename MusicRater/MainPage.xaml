@@ -6,24 +6,14 @@
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" xmlns:my="clr-namespace:MusicRater">
 
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot" Background="#333333">
         <Grid.RowDefinitions>
-            <RowDefinition Height="39*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="164*" />
             <RowDefinition Height="97*" />
         </Grid.RowDefinitions>
-        <ListBox Margin="5,33,5,5" x:Name="listBox1" Grid.Row="1" ItemsSource="{Binding Tracks.View}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Author}" />
-                        <TextBlock Text="{Binding Title}" />
-                        <Slider Minimum="0" Maximum="100" SmallChange="10" Width="100" Value="{Binding Rating, Mode=TwoWay}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <MediaElement x:Name="mediaElement1" Margin="0,0,0,136" Grid.RowSpan="2" />
+        <MediaElement x:Name="mediaElement1" />
         <StackPanel Orientation="Horizontal">
             <Button Style="{StaticResource MarkRoundButton}" Height="32" Margin="2" Width="32" Command="{Binding PlayCommand}" ToolTipService.ToolTip="Play">
                         <Path Fill="Black" Data="M 0,0 l 2,1 l -2,1 Z" Stretch="UniformToFill" Width="16" Height="16" />
@@ -70,8 +60,9 @@
             <Button Style="{StaticResource MarkRoundButton}" Content="Hide" Height="32" Margin="2" Width="32" Command="{Binding HideCommand}"/>
             <Button Style="{StaticResource MarkRoundButton}" Content="Restore" Height="32" Margin="2" Width="32" Command="{Binding RestoreCommand}"/>
         </StackPanel>
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="120,16,0,0" Name="textBlock1" Text="{Binding BufferingProgress}" VerticalAlignment="Top" />
+        <my:PositionControl Margin="5" x:Name="positionControl1" Grid.Row="1" />
         <sdk:Label Height="28" Margin="5,0,0,0" Name="label1" VerticalAlignment="Top" Foreground="Red" Content="{Binding ErrorMessage}" Grid.Row="1" />
-        <my:RatingControl Grid.Row="2"  x:Name="ratingControl1" DataContext="{Binding Tracks.View.CurrentItem}" />
+        <my:TrackListControl Grid.Row="2" Margin="5" x:Name="trackListControl1"  />
+        <my:RatingControl Grid.Row="3" Margin="5" x:Name="ratingControl1" DataContext="{Binding Tracks.View.CurrentItem}" />
     </Grid>
 </UserControl>
