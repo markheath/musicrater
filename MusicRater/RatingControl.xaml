@@ -3,6 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:my="clr-namespace:MusicRater"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400">
 
@@ -19,9 +21,17 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" Name="textBlock2" Text="What I liked..." />
-            <TextBox Height="47" Margin="10,0" Name="textBox1" AcceptsReturn="True" Text="{Binding PositiveComments, Mode=TwoWay}" />
+            <TextBox Height="47" Margin="10,0" Name="textBox1" AcceptsReturn="True" Text="{Binding PositiveComments, Mode=TwoWay}">
+                <i:Interaction.Behaviors>
+                    <my:UpdateSourceOnTextChanged />
+                </i:Interaction.Behaviors>
+            </TextBox>
             <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" Name="textBlock1" Text="What could be improved...."  />
-            <TextBox Height="53" Margin="10,0" Name="textBox2" Grid.Row="1" AcceptsReturn="True" Text="{Binding Suggestions, Mode=TwoWay}" />
+            <TextBox Height="53" Margin="10,0" Name="textBox2" Grid.Row="1" AcceptsReturn="True" Text="{Binding Suggestions, Mode=TwoWay}">
+                <i:Interaction.Behaviors>
+                    <my:UpdateSourceOnTextChanged />
+                </i:Interaction.Behaviors>
+            </TextBox>
             <StackPanel Orientation="Horizontal" Margin="10,5">
                 <TextBlock Text="Exclude" FontFamily="Verdana" Foreground="White"/>
                 <CheckBox Margin="10,0" IsChecked="{Binding IsExcluded, Mode=TwoWay}" />
