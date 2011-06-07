@@ -26,7 +26,7 @@ namespace MusicRater
     {
         private MediaElement me;
         private string errorMessage;
-        private ObservableCollection<Track> tracksInternal; // this technique from http://www.silverlightplayground.org/post/2009/07/18/Use-CollectionViewSource-effectively-in-MVVM-applications.aspx
+        private ObservableCollection<TrackViewModel> tracksInternal; // this technique from http://www.silverlightplayground.org/post/2009/07/18/Use-CollectionViewSource-effectively-in-MVVM-applications.aspx
         private DispatcherTimer timer;
 
         public MainPageViewModel(MediaElement me)
@@ -47,7 +47,7 @@ namespace MusicRater
             Uri trackListUri = new Uri("http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml", UriKind.Absolute);
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
             wc.DownloadStringAsync(trackListUri);
-            this.tracksInternal = new ObservableCollection<Track>();
+            this.tracksInternal = new ObservableCollection<TrackViewModel>();
             this.Tracks = new CollectionViewSource();
             this.Tracks.Source = tracksInternal;            
             this.Tracks.View.CurrentChanged += (s, e) => me.Source = new Uri(this.SelectedTrack.Url, UriKind.Absolute);
@@ -99,8 +99,8 @@ namespace MusicRater
 
         void LoadTrackList(string xml, string prefix)
         {
-            List<Track> tracks = new List<Track>();
-            List<Criteria> criteria = new List<Criteria>();
+            var tracks = new List<TrackViewModel>();
+            var criteria = new List<Criteria>();
             criteria.Add(new Criteria("Song Writing"));
             criteria.Add(new Criteria("Sounds"));
             criteria.Add(new Criteria("Production"));
@@ -110,7 +110,7 @@ namespace MusicRater
                 string fileName = file.Attribute("name").Value;
                 if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
                 {
-                    Track t = new Track(from c in criteria select new Rating(c));
+                    var t = new TrackViewModel(from c in criteria select new Rating(c));
                     var titleElement = file.Element("title");
                     if (titleElement != null)
                     {
@@ -140,14 +140,14 @@ namespace MusicRater
             this.Tracks.View.MoveCurrentToFirst();
         }
 
-        public static void Shuffle(IList<Track> list, Random rng)
+        public static void Shuffle<T>(IList<T> list, Random rng)
         {
             // Note i > 0 to avoid final pointless iteration
             for (int i = list.Count - 1; i > 0; i--)
             {
                 // Swap element "i" with a random earlier element it (or itself)
                 int swapIndex = rng.Next(i + 1);
-                Track tmp = list[i];
+                T tmp = list[i];
                 list[i] = list[swapIndex];
                 list[swapIndex] = tmp;
             }
@@ -165,13 +165,21 @@ namespace MusicRater
 
         private void Next()
         {
-            int index = Tracks.View.CurrentPosition;
-            index++;
-            if (index >= tracksInternal.Count)
+            int originalIndex = Tracks.View.CurrentPosition;
+            int index = originalIndex;
+            do
             {
-                index=0;
-            }
-            Tracks.View.MoveCurrentToPosition(index);
+                index++;
+                if (index >= tracksInternal.Count)
+                {
+                    index = 0;
+                }
+                if (!tracksInternal[index].IsExcluded)
+                {
+                    Tracks.View.MoveCurrentToPosition(index);
+                    break;
+                }
+            } while (index != originalIndex);
         }
 
         private void Prev()
@@ -193,7 +201,6 @@ namespace MusicRater
         public ICommand NextCommand { get; private set; }
         public ICommand PrevCommand { get; private set; }
 
-
         public string ErrorMessage
         {
             get
@@ -210,11 +217,11 @@ namespace MusicRater
             }
         }
 
-        public Track SelectedTrack
+        public TrackViewModel SelectedTrack
         {
             get
             {
-                return (Track)Tracks.View.CurrentItem;
+                return (TrackViewModel)Tracks.View.CurrentItem;
             }
 
         }

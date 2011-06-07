@@ -22,6 +22,10 @@
             <TextBox Height="47" Margin="10,0" Name="textBox1" AcceptsReturn="True" Text="{Binding PositiveComments, Mode=TwoWay}" />
             <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" Name="textBlock1" Text="What could be improved...."  />
             <TextBox Height="53" Margin="10,0" Name="textBox2" Grid.Row="1" AcceptsReturn="True" Text="{Binding Suggestions, Mode=TwoWay}" />
+            <StackPanel Orientation="Horizontal" Margin="10,5">
+                <TextBlock Text="Exclude" FontFamily="Verdana" Foreground="White"/>
+                <CheckBox Margin="10,0" IsChecked="{Binding IsExcluded, Mode=TwoWay}" />
+            </StackPanel>
         </StackPanel>
     </Border>
 </UserControl>
