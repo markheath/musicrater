@@ -42,7 +42,7 @@
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-						<Ellipse x:Name="ellipse" Fill="#00F4F4F5" Stroke="Black" StrokeThickness="3" OpacityMask="{x:Null}"/>
+						<Ellipse x:Name="ellipse" Fill="#00F4F4F5" Stroke="White" StrokeThickness="3" OpacityMask="{x:Null}"/>
 						<ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="5"/>
 					</Grid>
 				</ControlTemplate>

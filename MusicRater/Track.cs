@@ -74,7 +74,7 @@ namespace MusicRater
         }
 
         private readonly static Brush enabledBrush = new SolidColorBrush(Colors.Black);
-        private readonly static Brush disabledBrush = new SolidColorBrush(Colors.LightGray);
+        private readonly static Brush disabledBrush = new SolidColorBrush(Colors.Gray);
 
         public Brush TextBrush
         {
