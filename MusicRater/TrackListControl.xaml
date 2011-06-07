@@ -11,9 +11,9 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Author}" FontWeight="Bold" Width="100"/>
-                        <TextBlock Text="{Binding Title}" Width="200"/>
-                        <Slider Minimum="0" Maximum="100" SmallChange="10" Width="100" Value="{Binding Rating, Mode=TwoWay}" />
+                        <TextBlock Text="{Binding Author}" FontWeight="Bold" Width="120"/>
+                        <TextBlock Text="{Binding Title}" Width="220"/>
+                        <ProgressBar Minimum="0" Maximum="1" Width="100" Value="{Binding Rating}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

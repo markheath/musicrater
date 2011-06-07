@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -17,6 +18,7 @@ using System.Xml.Linq;
 using System.Windows.Data;
 using System.Collections.Generic;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace MusicRater
 {
@@ -108,7 +110,7 @@ namespace MusicRater
                 string fileName = file.Attribute("name").Value;
                 if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
                 {
-                    Track t = new Track();
+                    Track t = new Track(from c in criteria select new Rating(c));
                     var titleElement = file.Element("title");
                     if (titleElement != null)
                     {
@@ -126,11 +128,6 @@ namespace MusicRater
                         t.Title = index == -1 ? nameOnly : nameOnly.Substring(index + 3);
                     }
                     t.Url = prefix + fileName;
-                    t.SubRatings = new List<Rating>();
-                    foreach (var c in criteria)
-                    {
-                        t.SubRatings.Add(new Rating() { Criteria = c });
-                    }
                     tracks.Add(t);
                 }
             }
@@ -154,7 +151,6 @@ namespace MusicRater
                 list[swapIndex] = tmp;
             }
         }
-
 
         private void Play()
         {            
