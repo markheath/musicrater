@@ -21,18 +21,23 @@ namespace MusicRater
     {
         private MediaElement me;
         private Track selectedTrack;
+        private string errorMessage;
 
         public MainPageViewModel(MediaElement me)
         {
             this.me = me; // new MediaElement();            
             this.me.BufferingProgressChanged += (s, e) => { this.BufferingProgress = me.BufferingProgress; RaisePropertyChanged("BufferingProgress"); };
             this.me.MediaFailed += (s, e) => this.ErrorMessage = e.ErrorException.Message;
+            this.me.MediaEnded += (s, e) => Next();
             WebClient wc = new WebClient();
-            Uri trackListUri = new Uri("http://ia600606.us.archive.org/24/items/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml", UriKind.Absolute);
+            Uri trackListUri = new Uri("http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml", UriKind.Absolute);
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
             wc.DownloadStringAsync(trackListUri);
             this.Tracks = new ObservableCollection<Track>();
             this.PlayCommand = new RelayCommand(() => Play());
+            this.PauseCommand = new RelayCommand(() => Pause());
+            this.NextCommand = new RelayCommand(() => Next());
+            this.PrevCommand = new RelayCommand(() => Prev());
         }
 
         void wc_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
@@ -41,7 +46,10 @@ namespace MusicRater
             {
                 LoadTrackList(e.Result, "http://www.archive.org/download/KvrOsc28TyrellN6/");
             }
-            // TODO: report error
+            else
+            {
+                this.ErrorMessage = e.Error.Message;
+            }
         }
 
         void LoadTrackList(string xml, string prefix)
@@ -79,15 +87,43 @@ namespace MusicRater
         private void Play()
         {
             me.Source = new Uri(this.SelectedTrack.Url, UriKind.Absolute);
-
             me.Play();
+        }
+
+        private void Pause()
+        {
+            me.Pause();
+        }
+
+        private void Next()
+        {
+            int index = Tracks.IndexOf(SelectedTrack);
+            index++;
+            if (index >= Tracks.Count)
+            {
+                index=0;
+            }
+            SelectedTrack = Tracks[index];
+        }
+
+        private void Prev()
+        {
+            int index = Tracks.IndexOf(SelectedTrack);
+            index--;
+            if (index < 0)
+            {
+                index = Tracks.Count - 1;
+            }
+            SelectedTrack = Tracks[index];
         }
 
         public double BufferingProgress { get; private set; }
         public ObservableCollection<Track> Tracks { get; private set; }
         public ICommand PlayCommand { get; private set; }
+        public ICommand PauseCommand { get; private set; }
+        public ICommand NextCommand { get; private set; }
+        public ICommand PrevCommand { get; private set; }
 
-        private string errorMessage;
 
         public string ErrorMessage
         {
