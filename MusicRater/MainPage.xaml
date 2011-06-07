@@ -39,10 +39,33 @@
             </Button>
 
             <Button Style="{StaticResource MarkRoundButton}" Height="32" Margin="2" Width="32" Command="{Binding RandCommand}" ToolTipService.ToolTip="Random">
-                
+            	<Grid Height="24" Width="24">
+            		<Path Data="M4.1569505,19.699551 C6.5925446,10.271446 7.1542354,8.2115021 16.661123,2.6074421" Fill="#00F4F4F5" Margin="3.157,1.608,5.339,2.3" Stretch="Fill" Stroke="Black" StrokeThickness="3" UseLayoutRounding="False" StrokeEndLineCap="Triangle"/>
+            		<Path Data="M14.919283,19.699551 C13.926098,16.079233 13.265008,14.32053 11.280537,11.12812" Fill="#00F4F4F5" Margin="10.28,10.128,7.081,2.3" Stretch="Fill" Stroke="Black" StrokeThickness="3" UseLayoutRounding="False"/>
+            		<Path Data="M6.3991032,6.6950674 C5.359849,5.1361861 4.6014905,4.0964079 3.2600896,2.6591928" Fill="#00F4F4F5" HorizontalAlignment="Left" Height="7.036" Margin="2.26,1.659,0,0" Stretch="Fill" Stroke="Black" StrokeThickness="3" UseLayoutRounding="False" VerticalAlignment="Top" Width="6.139" StrokeEndLineCap="Triangle"/>
+            	</Grid>
             </Button>
             <Button Style="{StaticResource MarkRoundButton}" Height="32" Margin="2" Width="32" Command="{Binding AnonCommand}" ToolTipService.ToolTip="Anonymize">
-                <TextBlock FontWeight="ExtraBlack" FontFamily="Arial Black" FontSize="16" Text="?" />
+                <Path Data="M3.0625,11.942552 L6.2421875,11.942552 L6.2421875,14.747239 L3.0625,14.747239 z M5.03125,3.0988016 C6.1666665,3.0988016 7.083333,3.3357811 7.78125,3.8097391 C8.729166,4.4503641 9.203125,5.3045311 9.203125,6.3722391 C9.203125,6.8149481 9.0807285,7.2420311 8.8359375,7.6534891 C8.5911455,8.0649471 8.0911455,8.5675516 7.3359375,9.1613016 C6.8098955,9.5779686 6.4778643,9.9126034 6.3398438,10.165208 C6.2018228,10.417812 6.1328125,10.747239 6.1328125,11.153489 L3.1640625,11.153489 L3.1640625,10.856614 C3.1640623,10.351406 3.221354,9.9412498 3.3359375,9.6261454 C3.4505208,9.3110409 3.6210938,9.0232811 3.8476563,8.7628641 C4.0742188,8.5024481 4.583333,8.0441151 5.375,7.3878641 C5.796875,7.0441146 6.0078125,6.7290106 6.0078125,6.4425516 C6.0078125,6.1560936 5.9231768,5.9334373 5.7539063,5.7745829 C5.5846353,5.6157293 5.328125,5.5363016 4.984375,5.5363016 C4.614583,5.5363016 4.3085938,5.6586981 4.0664063,5.9034891 C3.8242185,6.1482811 3.6692705,6.5753641 3.6015625,7.1847391 L0.57031256,6.8097391 C0.67447913,5.6951561 1.0794271,4.7980204 1.7851564,4.1183329 C2.4908853,3.4386454 3.5729165,3.0988016 5.03125,3.0988016 z" Height="17.926" RenderTransformOrigin="0.5,0.5" Stretch="Fill" UseLayoutRounding="False" Width="14.015">
+            		<Path.Fill>
+            			<SolidColorBrush Color="Black">
+            				<SolidColorBrush.RelativeTransform>
+            					<MatrixTransform Matrix="Identity"/>
+            				</SolidColorBrush.RelativeTransform>
+            				<SolidColorBrush.Transform>
+            					<MatrixTransform Matrix="Identity"/>
+            				</SolidColorBrush.Transform>
+            			</SolidColorBrush>
+            		</Path.Fill>
+            		<Path.RenderTransform>
+            			<TransformGroup>
+            				<ScaleTransform/>
+            				<SkewTransform/>
+            				<RotateTransform/>
+            				<TranslateTransform/>
+            			</TransformGroup>
+            		</Path.RenderTransform>
+            	</Path>
             </Button>
             <Button Style="{StaticResource MarkRoundButton}" Content="Hide" Height="23" Margin="2" Width="75" Command="{Binding HideCommand}"/>
             <Button Style="{StaticResource MarkRoundButton}" Content="Restore" Height="23" Margin="5" Width="75" Command="{Binding HideCommand}"/>
