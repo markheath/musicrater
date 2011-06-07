@@ -12,7 +12,7 @@
             <RowDefinition Height="164*" />
             <RowDefinition Height="97*" />
         </Grid.RowDefinitions>
-        <ListBox Margin="5,33,5,5" x:Name="listBox1" Grid.Row="1" ItemsSource="{Binding Tracks}" SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
+        <ListBox Margin="5,33,5,5" x:Name="listBox1" Grid.Row="1" ItemsSource="{Binding Tracks.View}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

@@ -14,6 +14,7 @@ using GalaSoft.MvvmLight.Command;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using System.Windows.Data;
 
 namespace MusicRater
 {
@@ -22,6 +23,7 @@ namespace MusicRater
         private MediaElement me;
         private Track selectedTrack;
         private string errorMessage;
+        private ObservableCollection<Track> tracksInternal; // this technique from http://www.silverlightplayground.org/post/2009/07/18/Use-CollectionViewSource-effectively-in-MVVM-applications.aspx
 
         public MainPageViewModel(MediaElement me)
         {
@@ -33,7 +35,9 @@ namespace MusicRater
             Uri trackListUri = new Uri("http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml", UriKind.Absolute);
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
             wc.DownloadStringAsync(trackListUri);
-            this.Tracks = new ObservableCollection<Track>();
+            this.tracksInternal = new ObservableCollection<Track>();
+            this.Tracks = new CollectionViewSource();
+            this.Tracks.Source = tracksInternal;            
             this.PlayCommand = new RelayCommand(() => Play());
             this.PauseCommand = new RelayCommand(() => Pause());
             this.NextCommand = new RelayCommand(() => Next());
@@ -78,10 +82,9 @@ namespace MusicRater
                         t.Title = index == -1 ? nameOnly : nameOnly.Substring(index + 3);
                     }
                     t.Url = prefix + fileName;
-                    this.Tracks.Add(t);
+                    this.tracksInternal.Add(t);
                 }
             }
-
         }
 
         private void Play()
@@ -97,28 +100,28 @@ namespace MusicRater
 
         private void Next()
         {
-            int index = Tracks.IndexOf(SelectedTrack);
+            int index = Tracks.View.CurrentPosition;
             index++;
-            if (index >= Tracks.Count)
+            if (index >= tracksInternal.Count)
             {
                 index=0;
             }
-            SelectedTrack = Tracks[index];
+            Tracks.View.MoveCurrentToPosition(index);
         }
 
         private void Prev()
         {
-            int index = Tracks.IndexOf(SelectedTrack);
+            int index = Tracks.View.CurrentPosition;
             index--;
             if (index < 0)
             {
-                index = Tracks.Count - 1;
+                index = tracksInternal.Count - 1;
             }
-            SelectedTrack = Tracks[index];
+            Tracks.View.MoveCurrentToPosition(index);
         }
 
         public double BufferingProgress { get; private set; }
-        public ObservableCollection<Track> Tracks { get; private set; }
+        public CollectionViewSource Tracks { get; private set; }
         public ICommand PlayCommand { get; private set; }
         public ICommand PauseCommand { get; private set; }
         public ICommand NextCommand { get; private set; }
@@ -145,16 +148,9 @@ namespace MusicRater
         {
             get
             {
-                return selectedTrack;
+                return (Track)Tracks.View.CurrentItem;
             }
-            set
-            {
-                if (selectedTrack != value)
-                {
-                    selectedTrack = value;
-                    RaisePropertyChanged("SelectedTrack");
-                }
-            }
+
         }
     }
 }
