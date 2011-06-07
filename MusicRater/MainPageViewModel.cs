@@ -31,7 +31,7 @@ namespace MusicRater
             this.me = me; // new MediaElement();            
             this.me.BufferingProgressChanged += (s, e) => { this.BufferingProgress = me.BufferingProgress; RaisePropertyChanged("BufferingProgress"); };
             this.me.MediaFailed += (s, e) => this.ErrorMessage = e.ErrorException.Message;
-            this.me.MediaEnded += (s, e) => Next();
+            this.me.MediaEnded += (s, e) => { SelectedTrack.Listens++; Next(); };
             WebClient wc = new WebClient();
             Uri trackListUri = new Uri("http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml", UriKind.Absolute);
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
@@ -39,6 +39,7 @@ namespace MusicRater
             this.tracksInternal = new ObservableCollection<Track>();
             this.Tracks = new CollectionViewSource();
             this.Tracks.Source = tracksInternal;            
+            this.Tracks.View.CurrentChanged += (s, e) => me.Source = new Uri(this.SelectedTrack.Url, UriKind.Absolute);
             this.PlayCommand = new RelayCommand(() => Play());
             this.PauseCommand = new RelayCommand(() => Pause());
             this.NextCommand = new RelayCommand(() => Next());
@@ -95,11 +96,11 @@ namespace MusicRater
                     this.tracksInternal.Add(t);
                 }
             }
+            this.Tracks.View.MoveCurrentToFirst();
         }
 
         private void Play()
-        {
-            me.Source = new Uri(this.SelectedTrack.Url, UriKind.Absolute);
+        {            
             me.Play();
         }
 
