@@ -26,23 +26,12 @@ namespace MusicRater
         {
             this.me = me; // new MediaElement();            
             this.me.BufferingProgressChanged += (s, e) => { this.BufferingProgress = me.BufferingProgress; RaisePropertyChanged("BufferingProgress"); };
+            this.me.MediaFailed += (s, e) => this.ErrorMessage = e.ErrorException.Message;
             WebClient wc = new WebClient();
             Uri trackListUri = new Uri("http://ia600606.us.archive.org/24/items/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml", UriKind.Absolute);
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
             wc.DownloadStringAsync(trackListUri);
             this.Tracks = new ObservableCollection<Track>();
-            this.Tracks.Add(new Track()
-            {
-                Url = "http://www.archive.org/download/KvrOsc28TyrellN6/Acronym-Dryrell.mp3",
-                Title = "Dryrell",
-                Author = "Acronym"
-            });
-            this.Tracks.Add(new Track()
-            {
-                Url = "http://www.archive.org/download/KvrOsc28TyrellN6/Acronym-Radium.mp3",
-                Title = "Radium",
-                Author = "Acronym"
-            });
             this.PlayCommand = new RelayCommand(() => Play());
         }
 
@@ -97,6 +86,24 @@ namespace MusicRater
         public double BufferingProgress { get; private set; }
         public ObservableCollection<Track> Tracks { get; private set; }
         public ICommand PlayCommand { get; private set; }
+
+        private string errorMessage;
+
+        public string ErrorMessage
+        {
+            get
+            {
+                return errorMessage;
+            }
+            set
+            {
+                if (this.errorMessage != value)
+                {
+                    this.errorMessage = value;
+                    RaisePropertyChanged("ErrorMessage");
+                }
+            }
+        }
 
         public Track SelectedTrack
         {
