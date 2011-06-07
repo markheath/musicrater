@@ -67,8 +67,8 @@
             		</Path.RenderTransform>
             	</Path>
             </Button>
-            <Button Style="{StaticResource MarkRoundButton}" Content="Hide" Height="23" Margin="2" Width="75" Command="{Binding HideCommand}"/>
-            <Button Style="{StaticResource MarkRoundButton}" Content="Restore" Height="23" Margin="5" Width="75" Command="{Binding HideCommand}"/>
+            <Button Style="{StaticResource MarkRoundButton}" Content="Hide" Height="32" Margin="2" Width="32" Command="{Binding HideCommand}"/>
+            <Button Style="{StaticResource MarkRoundButton}" Content="Restore" Height="32" Margin="2" Width="32" Command="{Binding RestoreCommand}"/>
         </StackPanel>
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="120,16,0,0" Name="textBlock1" Text="{Binding BufferingProgress}" VerticalAlignment="Top" />
         <sdk:Label Height="28" Margin="5,0,0,0" Name="label1" VerticalAlignment="Top" Foreground="Red" Content="{Binding ErrorMessage}" Grid.Row="1" />
