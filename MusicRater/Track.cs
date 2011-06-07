@@ -14,7 +14,7 @@ namespace MusicRater
         public Track(IEnumerable<Rating> ratings)
         {
             this.SubRatings = new List<Rating>(ratings);
-            foreach (var rating in ratings)
+            foreach (var rating in SubRatings)
             {
                 rating.PropertyChanged += (s, e) => { Debug.WriteLine("RATING CHANGE"); RaisePropertyChanged("Rating"); };
             }

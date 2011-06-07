@@ -116,6 +116,7 @@ namespace MusicRater
                     {
                         string title = file.Element("title").Value;
                         int index = title.IndexOf(" - ");
+                        if (index == -1) index = title.IndexOf("-");
                         t.Author = index == -1 ? "Unknown" : title.Substring(0, index);
                         t.Title = index == -1 ? title : title.Substring(index + 3);
                     }

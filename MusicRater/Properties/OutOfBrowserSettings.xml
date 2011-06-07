@@ -1,7 +1,7 @@
-<OutOfBrowserSettings ShortName="MusicRater Application" EnableGPUAcceleration="False" ShowInstallMenuItem="True">
-  <OutOfBrowserSettings.Blurb>MusicRater Application on your desktop; at home, at work or on the go.</OutOfBrowserSettings.Blurb>
+<OutOfBrowserSettings ShortName="KVR OSC Rating Helper" EnableGPUAcceleration="False" ShowInstallMenuItem="True">
+  <OutOfBrowserSettings.Blurb>Utility to help rate entries in the KVR OSC Contest</OutOfBrowserSettings.Blurb>
   <OutOfBrowserSettings.WindowSettings>
-    <WindowSettings Title="MusicRater Application" />
+    <WindowSettings Title="KVR One Synth Contest Rating Helper" Height="600" Width="500" />
   </OutOfBrowserSettings.WindowSettings>
   <OutOfBrowserSettings.Icons />
 </OutOfBrowserSettings>

@@ -7,21 +7,21 @@
     d:DesignHeight="300" d:DesignWidth="400">
 
     <Border CornerRadius="5" Background="#304060">
-    <StackPanel x:Name="LayoutRoot" >        
-        <ItemsControl Margin="10,5" MinHeight="30" ItemsSource="{Binding SubRatings}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="Verdana" FontWeight="Bold" Foreground="White" Text="{Binding Name}" Width="100"/>
-                        <Slider Margin="10,0"  Value="{Binding Value, Mode=TwoWay}" Minimum="0" Maximum="10" Width="100"/>
-                    </StackPanel>                    
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-            <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" Name="textBlock1" Text="What could be improved...."  />
-        <TextBox Height="47" Margin="10,0" Name="textBox1" AcceptsReturn="True" Text="{Binding PositiveComments, Mode=TwoWay}" />
+        <StackPanel x:Name="LayoutRoot" >
+            <ItemsControl Margin="10,5" MinHeight="30" ItemsSource="{Binding SubRatings}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Verdana" FontWeight="Bold" Foreground="White" Text="{Binding Name}" Width="100"/>
+                            <Slider Margin="10,0"  Value="{Binding Value, Mode=TwoWay}" Minimum="0" Maximum="10" Width="100"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
             <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" Name="textBlock2" Text="What I liked..." />
-        <TextBox Height="53" Margin="10,0" Name="textBox2" Grid.Row="1" AcceptsReturn="True" Text="{Binding Suggestions, Mode=TwoWay}" />
-    </StackPanel>
+            <TextBox Height="47" Margin="10,0" Name="textBox1" AcceptsReturn="True" Text="{Binding PositiveComments, Mode=TwoWay}" />
+            <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" Name="textBlock1" Text="What could be improved...."  />
+            <TextBox Height="53" Margin="10,0" Name="textBox2" Grid.Row="1" AcceptsReturn="True" Text="{Binding Suggestions, Mode=TwoWay}" />
+        </StackPanel>
     </Border>
 </UserControl>
