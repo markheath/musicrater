@@ -8,11 +8,11 @@
 
     <Border CornerRadius="5" Background="#304060">
     <StackPanel x:Name="LayoutRoot" >        
-        <ItemsControl Margin="10,0" MinHeight="30" ItemsSource="{Binding SubRatings}">
+        <ItemsControl Margin="10,5" MinHeight="30" ItemsSource="{Binding SubRatings}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Verdana" Foreground="White" Text="{Binding Name}" />
+                        <TextBlock FontFamily="Verdana" FontWeight="Bold" Foreground="White" Text="{Binding Name}" Width="100"/>
                         <Slider Margin="10,0"  Value="{Binding Value, Mode=TwoWay}" Minimum="0" Maximum="10" Width="100"/>
                     </StackPanel>                    
                 </DataTemplate>

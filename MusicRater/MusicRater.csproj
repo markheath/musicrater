@@ -99,6 +99,9 @@
     <Compile Include="RatingControl.xaml.cs">
       <DependentUpon>RatingControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ToolbarControl.xaml.cs">
+      <DependentUpon>ToolbarControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Track.cs" />
     <Compile Include="TrackListControl.xaml.cs">
       <DependentUpon>TrackListControl.xaml</DependentUpon>
@@ -124,6 +127,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RatingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolbarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
