@@ -15,6 +15,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using System.Windows.Data;
+using System.Collections.Generic;
 
 namespace MusicRater
 {
@@ -58,6 +59,10 @@ namespace MusicRater
 
         void LoadTrackList(string xml, string prefix)
         {
+            List<Criteria> criteria = new List<Criteria>();
+            criteria.Add(new Criteria("Song Writing"));
+            criteria.Add(new Criteria("Sounds"));
+            criteria.Add(new Criteria("Production"));
             XDocument xdoc = XDocument.Parse(xml);
             foreach (var file in xdoc.Element("files").Elements("file"))
             {
@@ -82,6 +87,11 @@ namespace MusicRater
                         t.Title = index == -1 ? nameOnly : nameOnly.Substring(index + 3);
                     }
                     t.Url = prefix + fileName;
+                    t.SubRatings = new List<Rating>();
+                    foreach (var c in criteria)
+                    {
+                        t.SubRatings.Add(new Rating() { Criteria = c });
+                    }
                     this.tracksInternal.Add(t);
                 }
             }

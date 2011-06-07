@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="400" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
+    d:DesignHeight="300" d:DesignWidth="400" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" xmlns:my="clr-namespace:MusicRater">
 
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
@@ -72,5 +72,6 @@
         </StackPanel>
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="120,16,0,0" Name="textBlock1" Text="{Binding BufferingProgress}" VerticalAlignment="Top" />
         <sdk:Label Height="28" Margin="5,0,0,0" Name="label1" VerticalAlignment="Top" Foreground="Red" Content="{Binding ErrorMessage}" Grid.Row="1" />
+        <my:RatingControl Grid.Row="2"  x:Name="ratingControl1" DataContext="{Binding Tracks.View.CurrentItem}" />
     </Grid>
 </UserControl>
