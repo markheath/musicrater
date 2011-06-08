@@ -74,7 +74,7 @@ namespace MusicRater
         {
             var ratings = new List<Rating>();
             // read the sub-ratings first
-            foreach (var node in trackNode.Elements("SubRatings"))
+            foreach (var node in trackNode.Element("SubRatings").Elements("SubRating"))
             {
                 string criteriaName = node.Attribute("Name").Value;
                 Criteria c = null;
@@ -93,8 +93,8 @@ namespace MusicRater
             t.Url = trackNode.Attribute("Url").Value;
             t.Listens = Int32.Parse(trackNode.Attribute("Listens").Value);
             t.IsExcluded = Boolean.Parse(trackNode.Attribute("IsExcluded").Value);
-            t.PositiveComments = trackNode.Attribute("PositiveComments").Value;
-            t.Suggestions = trackNode.Attribute("SuggestionsComments").Value;
+            t.PositiveComments = trackNode.Element("PositiveComments").Value;
+            t.Suggestions = trackNode.Element("Suggestions").Value;
             return t;
         }
     }

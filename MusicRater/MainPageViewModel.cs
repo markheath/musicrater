@@ -28,6 +28,7 @@ namespace MusicRater
         private string errorMessage;
         private ObservableCollection<TrackViewModel> tracksInternal; // this technique from http://www.silverlightplayground.org/post/2009/07/18/Use-CollectionViewSource-effectively-in-MVVM-applications.aspx
         private DispatcherTimer timer;
+        private bool dirtyFlag;
 
         public MainPageViewModel(MediaElement me)
         {
@@ -43,9 +44,6 @@ namespace MusicRater
             timer.Interval = TimeSpan.FromMilliseconds(500);
             timer.Tick += new EventHandler(timer_Tick);
             timer.Start();
-            ITrackLoader loader = new CombinedTrackLoader();
-            loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
-            loader.BeginLoad();
 
             this.tracksInternal = new ObservableCollection<TrackViewModel>();
             this.Tracks = new CollectionViewSource();
@@ -55,6 +53,10 @@ namespace MusicRater
             this.PauseCommand = new RelayCommand(() => Pause());
             this.NextCommand = new RelayCommand(() => Next());
             this.PrevCommand = new RelayCommand(() => Prev());
+
+            ITrackLoader loader = new CombinedTrackLoader();
+            loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
+            loader.BeginLoad();
         }
 
         void CurrentSelectionChanged(object sender, EventArgs e)
@@ -74,10 +76,17 @@ namespace MusicRater
             {
                 foreach (var t in e.Tracks)
                 {
-                    tracksInternal.Add(new TrackViewModel(t));
+                    var trackViewModel = new TrackViewModel(t);
+                    trackViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(trackViewModel_PropertyChanged);
+                    tracksInternal.Add(trackViewModel);
                 }
                 this.Tracks.View.MoveCurrentToFirst();
             }
+        }
+
+        void trackViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            this.dirtyFlag = true;
         }
 
         void timer_Tick(object sender, EventArgs e)
@@ -85,6 +94,12 @@ namespace MusicRater
             if (me.CurrentState == MediaElementState.Playing)
             {
                 this.RaisePropertyChanged("PlaybackPosition");
+            }
+            if (dirtyFlag == true)
+            {
+                RatingsRepository repo = new RatingsRepository();
+                repo.Save(this.tracksInternal);
+                dirtyFlag = false;
             }
         }
 
@@ -105,12 +120,10 @@ namespace MusicRater
             }
             set
             {
-                Debug.WriteLine("SET Position {0}", value);
+                // Debug.WriteLine("SET Position {0}", value);
                 this.me.Position = TimeSpan.FromSeconds(value);
             }
         }
-
-
 
         private void Play()
         {            
