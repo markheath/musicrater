@@ -49,7 +49,7 @@ namespace MusicRater
             }
         }
 
-        public IEnumerable<TrackViewModel> Load()
+        public IEnumerable<Track> Load()
         {
             var criteria = new Dictionary<string, Criteria>();
             using (var store = IsolatedStorageFile.GetUserStoreForApplication())
@@ -70,7 +70,7 @@ namespace MusicRater
             }
         }
 
-        private TrackViewModel CreateTrackFromNode(XElement trackNode, Dictionary<string, Criteria> criteriaDictionary)
+        private Track CreateTrackFromNode(XElement trackNode, Dictionary<string, Criteria> criteriaDictionary)
         {
             var ratings = new List<Rating>();
             // read the sub-ratings first
@@ -87,7 +87,7 @@ namespace MusicRater
                 r.Value = Int32.Parse(node.Attribute("Value").Value);
                 ratings.Add(r);
             }
-            TrackViewModel t = new TrackViewModel(ratings);
+            Track t = new Track(ratings);
             t.Author = trackNode.Attribute("Author").Value;
             t.Title = trackNode.Attribute("Title").Value;
             t.Url = trackNode.Attribute("Url").Value;

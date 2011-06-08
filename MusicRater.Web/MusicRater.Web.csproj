@@ -52,6 +52,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClientBin\MusicRater.Tests.xap" />
     <Content Include="ClientBin\MusicRater.xap" />
     <Content Include="MusicRater.TestsTestPage.aspx" />
     <Content Include="MusicRater.TestsTestPage.html" />

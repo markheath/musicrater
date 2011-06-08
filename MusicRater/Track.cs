@@ -12,9 +12,9 @@ namespace MusicRater
     {
         private Track track;
 
-        public TrackViewModel(IEnumerable<Rating> ratings)
+        public TrackViewModel(Track track)
         {
-            this.track = new Track(ratings);
+            this.track = track;
             foreach (var rating in track.SubRatings)
             {
                 rating.PropertyChanged += (s, e) => RaisePropertyChanged("Rating");
