@@ -53,10 +53,16 @@ namespace MusicRater
                     if (titleElement != null)
                     {
                         string title = file.Element("title").Value;
-                        int index = title.IndexOf(" - ");
-                        if (index == -1) index = title.IndexOf("-");
+                        string sep = " - ";
+                        int index = title.IndexOf(sep);
+                        if (index == -1)
+                        {
+                            sep = "-";
+                            index = title.IndexOf(sep);
+                        }
                         t.Author = index == -1 ? "Unknown" : title.Substring(0, index);
-                        t.Title = index == -1 ? title : title.Substring(index + 3);
+                        t.Title = index == -1 ? title : title.Substring(index + sep.Length);
+                        t.Title = t.Title.Trim();
                     }
                     else
                     {
@@ -64,7 +70,7 @@ namespace MusicRater
                         string nameOnly = fileName.Substring(0, fileName.Length - 4);
                         int index = nameOnly.IndexOf("-");
                         t.Author = index == -1 ? "Unknown" : nameOnly.Substring(0, index);
-                        t.Title = index == -1 ? nameOnly : nameOnly.Substring(index + 3);
+                        t.Title = index == -1 ? nameOnly : nameOnly.Substring(index + 1);
                     }
                     t.Url = prefix + fileName;
                     tracks.Add(t);
