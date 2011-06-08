@@ -111,6 +111,7 @@
     <Compile Include="TrackListControl.xaml.cs">
       <DependentUpon>TrackListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TrackViewModel.cs" />
     <Compile Include="UpdateSourceOnTextChangedBehaviour.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

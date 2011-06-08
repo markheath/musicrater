@@ -100,7 +100,5 @@ namespace MusicRater
                 list[swapIndex] = tmp;
             }
         }
-
-
     }
 }
