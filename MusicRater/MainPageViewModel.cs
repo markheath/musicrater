@@ -42,8 +42,9 @@ namespace MusicRater
             timer.Interval = TimeSpan.FromMilliseconds(500);
             timer.Tick += new EventHandler(timer_Tick);
             timer.Start();
-            KvrTrackLoader loader = new KvrTrackLoader();
+            ITrackLoader loader = new CombinedTrackLoader();
             loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
+            loader.BeginLoad();
 
             this.tracksInternal = new ObservableCollection<TrackViewModel>();
             this.Tracks = new CollectionViewSource();

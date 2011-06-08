@@ -6,17 +6,16 @@ using System.Xml.Linq;
 
 namespace MusicRater
 {
-    public class LoadedEventArgs : EventArgs
-    {
-        public Exception Error { get; set; }
-        public IEnumerable<Track> Tracks { get; set; }
-    }
-
-    public class KvrTrackLoader
+    public class KvrTrackLoader : ITrackLoader
     {
         public event EventHandler<LoadedEventArgs> Loaded;
 
         public KvrTrackLoader()
+        {
+
+        }
+
+        public void BeginLoad()
         {
             WebClient wc = new WebClient();
             Uri trackListUri = new Uri("http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml", UriKind.Absolute);

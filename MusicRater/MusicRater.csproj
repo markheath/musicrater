@@ -86,7 +86,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CombinedTrackLoader.cs" />
     <Compile Include="Criteria.cs" />
+    <Compile Include="IsolatedStoreTrackLoader.cs" />
+    <Compile Include="ITrackLoader.cs" />
     <Compile Include="KvrTrackLoader.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
