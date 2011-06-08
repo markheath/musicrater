@@ -29,6 +29,7 @@ namespace MusicRater
         private ObservableCollection<TrackViewModel> tracksInternal; // this technique from http://www.silverlightplayground.org/post/2009/07/18/Use-CollectionViewSource-effectively-in-MVVM-applications.aspx
         private DispatcherTimer timer;
         private bool dirtyFlag;
+        private bool anonymousMode = true;
 
         public MainPageViewModel(MediaElement me)
         {
@@ -53,6 +54,7 @@ namespace MusicRater
             this.PauseCommand = new RelayCommand(() => Pause());
             this.NextCommand = new RelayCommand(() => Next());
             this.PrevCommand = new RelayCommand(() => Prev());
+            this.AnonCommand = new RelayCommand(() => Anon());
 
             ITrackLoader loader = new CombinedTrackLoader();
             loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
@@ -77,6 +79,7 @@ namespace MusicRater
                 foreach (var t in e.Tracks)
                 {
                     var trackViewModel = new TrackViewModel(t);
+                    trackViewModel.AnonymousMode = this.anonymousMode;
                     trackViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(trackViewModel_PropertyChanged);
                     tracksInternal.Add(trackViewModel);
                 }
@@ -135,6 +138,15 @@ namespace MusicRater
             me.Pause();
         }
 
+        private void Anon()
+        {
+            this.anonymousMode = !this.anonymousMode;
+            foreach (var track in tracksInternal)
+            {
+                track.AnonymousMode = this.anonymousMode;
+            }
+        }
+
         private void Next()
         {
             int originalIndex = Tracks.View.CurrentPosition;
@@ -172,6 +184,7 @@ namespace MusicRater
         public ICommand PauseCommand { get; private set; }
         public ICommand NextCommand { get; private set; }
         public ICommand PrevCommand { get; private set; }
+        public ICommand AnonCommand { get; private set; }
 
         public string ErrorMessage
         {

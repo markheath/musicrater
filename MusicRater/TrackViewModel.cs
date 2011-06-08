@@ -38,6 +38,11 @@ namespace MusicRater
             set { track.Author = value; }
         }
 
+        public string DisplayAuthor
+        {
+            get { return this.AnonymousMode ? "Anonymous" : track.Author; }
+        }
+
         public string Url
         {
             get { return track.Url; }
@@ -123,6 +128,17 @@ namespace MusicRater
         public IEnumerable<Rating> SubRatings
         {
             get { return track.SubRatings; }
+        }
+
+        private bool anonymousMode;
+        public bool AnonymousMode 
+        {
+            get { return anonymousMode; }
+            set
+            {
+                this.anonymousMode = value;
+                RaisePropertyChanged("DisplayAuthor");
+            }
         }
     }
 }
