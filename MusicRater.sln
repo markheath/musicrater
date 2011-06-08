@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicRater", "MusicRater\Mu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicRater.Web", "MusicRater.Web\MusicRater.Web.csproj", "{75396E38-AF94-4C4E-870E-73C1AF2F0D0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicRater.Tests", "MusicRater.Tests\MusicRater.Tests.csproj", "{75E9D99D-1A4C-4572-B43D-D170AA15E5B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{75396E38-AF94-4C4E-870E-73C1AF2F0D0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75396E38-AF94-4C4E-870E-73C1AF2F0D0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75396E38-AF94-4C4E-870E-73C1AF2F0D0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75E9D99D-1A4C-4572-B43D-D170AA15E5B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E9D99D-1A4C-4572-B43D-D170AA15E5B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75E9D99D-1A4C-4572-B43D-D170AA15E5B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75E9D99D-1A4C-4572-B43D-D170AA15E5B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

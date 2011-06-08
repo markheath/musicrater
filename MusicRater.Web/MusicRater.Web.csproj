@@ -14,7 +14,7 @@
     <AssemblyName>MusicRater.Web</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
-    <SilverlightApplicationList>{8C1BDD53-BD95-481E-93A9-E8C4467E5C8C}|..\MusicRater\MusicRater.csproj|ClientBin|False</SilverlightApplicationList>
+    <SilverlightApplicationList>{8C1BDD53-BD95-481E-93A9-E8C4467E5C8C}|..\MusicRater\MusicRater.csproj|ClientBin|False,{75E9D99D-1A4C-4572-B43D-D170AA15E5B3}|..\MusicRater.Tests\MusicRater.Tests.csproj|ClientBin|False</SilverlightApplicationList>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\MusicRater.xap" />
+    <Content Include="MusicRater.TestsTestPage.aspx" />
+    <Content Include="MusicRater.TestsTestPage.html" />
     <Content Include="MusicRaterTestPage.aspx" />
     <Content Include="MusicRaterTestPage.html" />
     <Content Include="Silverlight.js" />

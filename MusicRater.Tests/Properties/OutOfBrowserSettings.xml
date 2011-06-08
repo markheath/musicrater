@@ -1,0 +1,7 @@
+<OutOfBrowserSettings ShortName="MusicRater.Tests Application" EnableGPUAcceleration="False" ShowInstallMenuItem="True">
+  <OutOfBrowserSettings.Blurb>MusicRater.Tests Application on your desktop; at home, at work or on the go.</OutOfBrowserSettings.Blurb>
+  <OutOfBrowserSettings.WindowSettings>
+    <WindowSettings Title="MusicRater.Tests Application" />
+  </OutOfBrowserSettings.WindowSettings>
+  <OutOfBrowserSettings.Icons />
+</OutOfBrowserSettings>
