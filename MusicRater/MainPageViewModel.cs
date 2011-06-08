@@ -32,6 +32,7 @@ namespace MusicRater
         public MainPageViewModel(MediaElement me)
         {
             this.me = me; // new MediaElement();            
+            this.me.AutoPlay = false;
             this.me.BufferingProgressChanged += (s, e) => { this.BufferingProgress = me.BufferingProgress; RaisePropertyChanged("BufferingProgress"); };
             this.me.MediaFailed += (s, e) => this.ErrorMessage = e.ErrorException.Message;
             this.me.MediaOpened += me_MediaOpened;
@@ -48,12 +49,19 @@ namespace MusicRater
 
             this.tracksInternal = new ObservableCollection<TrackViewModel>();
             this.Tracks = new CollectionViewSource();
-            this.Tracks.Source = tracksInternal;            
-            this.Tracks.View.CurrentChanged += (s, e) => me.Source = new Uri(this.SelectedTrack.Url, UriKind.Absolute);
+            this.Tracks.Source = tracksInternal;
+            this.Tracks.View.CurrentChanged += new EventHandler(CurrentSelectionChanged);
             this.PlayCommand = new RelayCommand(() => Play());
             this.PauseCommand = new RelayCommand(() => Pause());
             this.NextCommand = new RelayCommand(() => Next());
             this.PrevCommand = new RelayCommand(() => Prev());
+        }
+
+        void CurrentSelectionChanged(object sender, EventArgs e)
+        {
+            me.Source = new Uri(this.SelectedTrack.Url, UriKind.Absolute);
+            me.Position = TimeSpan.Zero;
+            RaisePropertyChanged("PlaybackPosition");
         }
 
         void loader_Loaded(object sender, LoadedEventArgs e)
@@ -84,6 +92,7 @@ namespace MusicRater
         {
             this.Duration = me.NaturalDuration.TimeSpan.TotalSeconds;
             RaisePropertyChanged("Duration");
+            this.me.Play();
         }
 
         public double Duration { get; set; }
@@ -96,6 +105,7 @@ namespace MusicRater
             }
             set
             {
+                Debug.WriteLine("SET Position {0}", value);
                 this.me.Position = TimeSpan.FromSeconds(value);
             }
         }
