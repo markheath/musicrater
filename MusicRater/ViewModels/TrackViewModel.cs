@@ -49,31 +49,18 @@ namespace MusicRater
             set { track.Url = value; }
         }
 
-        public string PositiveComments
+        public string Comments
         {
-            get { return track.PositiveComments; }
+            get { return track.Comments; }
             set
             {
-                if (track.PositiveComments != value)
+                if (track.Comments != value)
                 {
-                    track.PositiveComments = value;
-                    RaisePropertyChanged("PositiveComments");
+                    track.Comments = value;
+                    RaisePropertyChanged("Comments");
                 }
             }
 
-        }
-
-        public string Suggestions
-        {
-            get { return track.Suggestions; }
-            set
-            {
-                if (track.Suggestions != value)
-                {
-                    track.Suggestions = value;
-                    RaisePropertyChanged("Suggestions");
-                }
-            }
         }
 
         public bool IsExcluded

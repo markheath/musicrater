@@ -21,12 +21,11 @@ namespace MusicRater.DummyViewModels
             this.SubRatings.Add(new Rating(new Criteria("Emotion")) { Value = 7 });
             this.SubRatings.Add(new Rating(new Criteria("Production")) { Value = 10 });
             this.Listens = 15;
-            this.PositiveComments = "Nice bass";
-            this.Suggestions = "More variety";
+            this.Comments = "Nice bass\r\nNeeds more variety";
         }
 
         public List<Rating> SubRatings { get; private set; }
-        public string PositiveComments { get; private set; }
+        public string Comments { get; private set; }
         public string Suggestions { get; private set; }
         public int Listens { get; private set; }
 

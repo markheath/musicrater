@@ -18,8 +18,7 @@ namespace MusicRater
         public string Title { get; set; }
         public string Author { get; set; }
         public string Url { get; set; }
-        public string PositiveComments { get; set; }
-        public string Suggestions { get; set; }
+        public string Comments { get; set; }
         public bool IsExcluded { get; set; }
         public IEnumerable<Rating> SubRatings { get; private set; }
         public int Listens { get; set; }

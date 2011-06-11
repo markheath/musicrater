@@ -30,8 +30,7 @@ namespace MusicRater
                                          new XAttribute("Url", t.Url),
                                          new XAttribute("Listens", t.Listens),
                                          new XAttribute("IsExcluded", t.IsExcluded),
-                                         new XElement("PositiveComments", t.PositiveComments),
-                                         new XElement("Suggestions", t.Suggestions),
+                                         new XElement("Comments", t.Comments),
                                          new XElement("SubRatings",
                                              from s in t.SubRatings
                                              select new XElement("SubRating",
@@ -93,8 +92,16 @@ namespace MusicRater
             t.Url = trackNode.Attribute("Url").Value;
             t.Listens = Int32.Parse(trackNode.Attribute("Listens").Value);
             t.IsExcluded = Boolean.Parse(trackNode.Attribute("IsExcluded").Value);
-            t.PositiveComments = trackNode.Element("PositiveComments").Value;
-            t.Suggestions = trackNode.Element("Suggestions").Value;
+            if (trackNode.Element("PositiveComments") != null)
+            {
+                // load in legacy comments
+                t.Comments = trackNode.Element("PositiveComments").Value + "\r\n" +
+                    trackNode.Element("Suggestions").Value;
+            }
+            else if (trackNode.Element("Comments") != null)
+            {
+                t.Comments = trackNode.Element("Comments").Value;
+            }
             return t;
         }
     }

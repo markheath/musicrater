@@ -26,7 +26,7 @@ namespace MusicRater.Tests
 
             PropertyChangedEventArgs nea = null;
             tvm.PropertyChanged += (s, e) => nea = e;
-            tvm.PositiveComments = "Good";
+            tvm.Comments = "Good";
             Assert.IsNotNull(nea);
         }
 
