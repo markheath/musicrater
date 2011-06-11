@@ -126,6 +126,9 @@
       <DependentUpon>RatingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="RatingsRepository.cs" />
+    <Compile Include="Views\StarRatingControl.xaml.cs">
+      <DependentUpon>StarRatingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ToolbarControl.xaml.cs">
       <DependentUpon>ToolbarControl.xaml</DependentUpon>
     </Compile>
@@ -170,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RatingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StarRatingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
