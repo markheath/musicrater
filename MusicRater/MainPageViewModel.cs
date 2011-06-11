@@ -1,24 +1,13 @@
 ﻿using System;
-using System.Net;
-using System.Linq;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.Collections.ObjectModel;
+using System.Windows.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System.IO;
-using System.Xml;
-using System.Xml.Linq;
-using System.Windows.Data;
-using System.Collections.Generic;
-using System.Windows.Threading;
-using System.Diagnostics;
 
 namespace MusicRater
 {
@@ -142,7 +131,6 @@ namespace MusicRater
             }
             set
             {
-                // Debug.WriteLine("SET Position {0}", value);
                 this.me.Position = TimeSpan.FromSeconds(value);
             }
         }
