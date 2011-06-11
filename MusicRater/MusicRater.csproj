@@ -93,6 +93,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DummyViewModels\DummyRatingControlViewModel.cs" />
     <Compile Include="MvvmUtils\BoolToVisibilityConverter.cs" />
     <Compile Include="CombinedTrackLoader.cs" />
     <Compile Include="Model\Criteria.cs" />
