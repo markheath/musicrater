@@ -3,15 +3,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:dummy="clr-namespace:MusicRater.DummyViewModels"
+    xmlns:dummy="clr-namespace:MusicRater.DummyViewModels"
+             xmlns:my="clr-namespace:MusicRater"
     mc:Ignorable="d"
+             
     d:DataContext="{Binding Source={StaticResource viewModel}}"
     d:DesignHeight="50" d:DesignWidth="400">
     <UserControl.Resources>
         <dummy:DummyPositionControlViewModel x:Key="viewModel" />
+        <my:SecondsToTimeDisplayConverter x:Key="secondsToTime" />
     </UserControl.Resources>
-    <Grid x:Name="LayoutRoot">
-        <ProgressBar Value="{Binding DownloadProgress}" Style="{StaticResource MusicDownloadProgressBarStyle}" Background="#FF304060" Foreground="#FFCCFFAB" BorderBrush="#FF304060" />
-        <Slider Value="{Binding PlaybackPosition, Mode=TwoWay}" Maximum="{Binding Duration}" />
-    </Grid>
+    <Border x:Name="LayoutRoot" Background="#ff304060" CornerRadius="5">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Foreground="White" FontFamily="Verdana" Text="{Binding PlaybackPosition, Converter={StaticResource secondsToTime}}" VerticalAlignment="Center" Margin="5,0,5,0" />
+            <ProgressBar Value="{Binding DownloadProgress}" Style="{StaticResource MusicDownloadProgressBarStyle}" Background="#FF304060" Foreground="#FFCCFFAB" BorderBrush="#FF304060" Grid.Column="1" />
+            <Slider Value="{Binding PlaybackPosition, Mode=TwoWay}" Maximum="{Binding Duration}" Grid.Column="1" />
+            <TextBlock Foreground="White" FontFamily="Verdana" Text="{Binding Duration, Converter={StaticResource secondsToTime}}" VerticalAlignment="Center" Margin="5,0,5,0" Grid.Column="2" />
+        </Grid>
+    </Border>
 </UserControl>

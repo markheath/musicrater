@@ -13,6 +13,17 @@ namespace MusicRater.DummyViewModels
 {
     public class DummyMainWindowViewModel
     {
-        public bool IsLoading { get { return false; } }
+        public DummyMainWindowViewModel()
+        {
+            this.IsLoading = false;
+            this.Duration = 256;
+            this.DownloadProgress = 76;
+            this.PlaybackPosition = 103;
+        }
+
+        public bool IsLoading { get; private set; }
+        public double Duration { get; private set; }
+        public double DownloadProgress { get; private set; }
+        public double PlaybackPosition { get; private set; }
     }
 }

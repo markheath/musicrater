@@ -107,6 +107,7 @@
     <Compile Include="ITrackLoader.cs" />
     <Compile Include="KvrTrackLoader.cs" />
     <Compile Include="MvvmUtils\ExtensionMethods.cs" />
+    <Compile Include="MvvmUtils\SecondsToTimeDisplayConverter.cs" />
     <Compile Include="ViewModels\AnonymiseCommand.cs" />
     <Compile Include="Views\LoadingView.xaml.cs">
       <DependentUpon>LoadingView.xaml</DependentUpon>
