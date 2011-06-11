@@ -105,6 +105,7 @@
     <Compile Include="IsolatedStoreTrackLoader.cs" />
     <Compile Include="ITrackLoader.cs" />
     <Compile Include="KvrTrackLoader.cs" />
+    <Compile Include="ViewModels\AnonymiseCommand.cs" />
     <Compile Include="Views\LoadingView.xaml.cs">
       <DependentUpon>LoadingView.xaml</DependentUpon>
     </Compile>

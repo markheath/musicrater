@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MusicRater.ViewModels;
 
 namespace MusicRater
 {
@@ -18,12 +19,11 @@ namespace MusicRater
         private ObservableCollection<TrackViewModel> tracksInternal; // this technique from http://www.silverlightplayground.org/post/2009/07/18/Use-CollectionViewSource-effectively-in-MVVM-applications.aspx
         private DispatcherTimer timer;
         private bool dirtyFlag;
-        private bool anonymousMode = true;
         private bool isLoading;
 
         public MainPageViewModel(MediaElement me)
         {
-            this.me = me; // new MediaElement();            
+            this.me = me;
             this.me.AutoPlay = false;
             this.me.BufferingProgressChanged += (s, e) => { this.BufferingProgress = me.BufferingProgress; RaisePropertyChanged("BufferingProgress"); };
             this.me.MediaFailed += (s, e) => this.ErrorMessage = e.ErrorException.Message;
@@ -44,7 +44,7 @@ namespace MusicRater
             this.PauseCommand = new RelayCommand(() => Pause());
             this.NextCommand = new RelayCommand(() => Next());
             this.PrevCommand = new RelayCommand(() => Prev());
-            this.AnonCommand = new RelayCommand(() => Anon());
+            this.AnonCommand = new AnonymiseCommand(this.tracksInternal);
 
             ITrackLoader loader = new CombinedTrackLoader();
             loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
@@ -70,7 +70,7 @@ namespace MusicRater
                 foreach (var t in e.Tracks)
                 {
                     var trackViewModel = new TrackViewModel(t);
-                    trackViewModel.AnonymousMode = this.anonymousMode;
+                    trackViewModel.AnonymousMode = this.AnonCommand.AnonymousMode;
                     trackViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(trackViewModel_PropertyChanged);
                     tracksInternal.Add(trackViewModel);
                 }
@@ -145,15 +145,6 @@ namespace MusicRater
             me.Pause();
         }
 
-        private void Anon()
-        {
-            this.anonymousMode = !this.anonymousMode;
-            foreach (var track in tracksInternal)
-            {
-                track.AnonymousMode = this.anonymousMode;
-            }
-        }
-
         private void Next()
         {
             int originalIndex = Tracks.View.CurrentPosition;
@@ -191,7 +182,7 @@ namespace MusicRater
         public ICommand PauseCommand { get; private set; }
         public ICommand NextCommand { get; private set; }
         public ICommand PrevCommand { get; private set; }
-        public ICommand AnonCommand { get; private set; }
+        public AnonymiseCommand AnonCommand { get; private set; }
 
         public string ErrorMessage
         {
