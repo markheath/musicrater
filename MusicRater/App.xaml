@@ -5,6 +5,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ResourceDictionaries/MarkRoundButton.xaml"/>
                 <ResourceDictionary Source="ResourceDictionaries/MarkProgressBar.xaml"/>
+                <ResourceDictionary Source="ResourceDictionaries/ErrorWindowStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
