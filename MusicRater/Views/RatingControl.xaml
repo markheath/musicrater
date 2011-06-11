@@ -37,13 +37,19 @@
                     <my:UpdateSourceOnTextChanged />
                 </i:Interaction.Behaviors>
             </TextBox>
-            <StackPanel Orientation="Horizontal" Margin="10,5">
-                <TextBlock Text="Exclude" FontFamily="Verdana" Foreground="White"/>
+            <Grid Margin="10,5">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Exclude" FontFamily="Verdana" Foreground="White" VerticalAlignment="Center" />
                 <CheckBox Margin="10,0" IsChecked="{Binding IsExcluded, Mode=TwoWay}" />
-                <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" Text="Listens:" />
-                <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" FontWeight="Bold" Text="{Binding Listens}" />
-
+                <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" Text="Listens:" VerticalAlignment="Center" />
+                <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" FontWeight="Bold" Text="{Binding Listens}" VerticalAlignment="Center" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <HyperlinkButton Foreground="#ccffab" Content="MusicRater" NavigateUri="http://bitbucket.org/markheath/musicrater" />
+                <TextBlock Margin="3,0" FontFamily="Verdana" Foreground="White" Text="by" VerticalAlignment="Center" />
+                <HyperlinkButton Foreground="#ccffab" Content="Mark Heath" NavigateUri="http://mark-dot-net.blogspot.com" Name="hyperlinkButton1" />
+            </StackPanel>
+            </Grid>
         </StackPanel>
     </Border>
 </UserControl>
