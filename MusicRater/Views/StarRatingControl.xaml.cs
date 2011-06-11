@@ -10,14 +10,13 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace MusicRater
+namespace MusicRater.Views
 {
-    public partial class ErrorMessageWindow : ChildWindow, IModalWindow
+    public partial class StarRatingControl : UserControl
     {
-        public ErrorMessageWindow()
+        public StarRatingControl()
         {
             InitializeComponent();
         }
     }
 }
-
