@@ -4,6 +4,7 @@
   	<ResourceDictionary>
   		<ResourceDictionary.MergedDictionaries>
   			<ResourceDictionary Source="MarkRoundButton.xaml"/>
+  			<ResourceDictionary Source="MarkProgressBar.xaml"/>
   		</ResourceDictionary.MergedDictionaries>
   		<vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
   	</ResourceDictionary>

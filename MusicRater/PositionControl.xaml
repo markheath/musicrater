@@ -3,11 +3,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dummy="clr-namespace:MusicRater.DummyViewModels"
     mc:Ignorable="d"
+    d:DataContext="{Binding Source={StaticResource viewModel}}"
     d:DesignHeight="50" d:DesignWidth="400">
-    
+    <UserControl.Resources>
+        <dummy:DummyPositionControlViewModel x:Key="viewModel" />
+    </UserControl.Resources>
     <Grid x:Name="LayoutRoot">
-        <ProgressBar Margin="5,0,5,0" Value="{Binding DownloadProgress}" />
+        <ProgressBar Value="{Binding DownloadProgress}" Style="{StaticResource MusicDownloadProgressBarStyle}" Background="#FF304060" Foreground="#FFCCFFAB" BorderBrush="#FF304060" />
         <Slider Value="{Binding PlaybackPosition, Mode=TwoWay}" Maximum="{Binding Duration}" />
     </Grid>
 </UserControl>

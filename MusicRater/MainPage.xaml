@@ -21,8 +21,10 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <MediaElement x:Name="mediaElement1" />
-        <my:ToolbarControl Margin="5"/>
-        <my:PositionControl Margin="5" x:Name="positionControl1" Grid.Row="1" />
+        <my:ToolbarControl Margin="5" />
+        <Border Background="#ff304060" Grid.Row="1" Margin="5">
+            <my:PositionControl />
+        </Border>
         <sdk:Label Height="28" Margin="5,0,0,0" Name="label1" VerticalAlignment="Top" Foreground="Red" Content="{Binding ErrorMessage}" Grid.Row="1" />
         <my:TrackListControl Grid.Row="2" Margin="5" x:Name="trackListControl1"  />
         <my:RatingControl Grid.Row="3" Margin="5" x:Name="ratingControl1" DataContext="{Binding Tracks.View.CurrentItem}" />
