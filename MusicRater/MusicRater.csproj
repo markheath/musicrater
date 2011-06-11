@@ -93,9 +93,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BoolToVisibilityConverter.cs" />
+    <Compile Include="MvvmUtils\BoolToVisibilityConverter.cs" />
     <Compile Include="CombinedTrackLoader.cs" />
-    <Compile Include="Criteria.cs" />
+    <Compile Include="Model\Criteria.cs" />
     <Compile Include="DummyViewModels\DummyErrorMessageViewModel.cs" />
     <Compile Include="DummyViewModels\DummyMainWindowViewModel.cs" />
     <Compile Include="DummyViewModels\DummyPositionControlViewModel.cs" />
@@ -105,32 +105,32 @@
     <Compile Include="IsolatedStoreTrackLoader.cs" />
     <Compile Include="ITrackLoader.cs" />
     <Compile Include="KvrTrackLoader.cs" />
-    <Compile Include="LoadingView.xaml.cs">
+    <Compile Include="Views\LoadingView.xaml.cs">
       <DependentUpon>LoadingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPageViewModel.cs" />
+    <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ModalDialogService.cs" />
-    <Compile Include="PositionControl.xaml.cs">
+    <Compile Include="Views\PositionControl.xaml.cs">
       <DependentUpon>PositionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rating.cs" />
-    <Compile Include="RatingControl.xaml.cs">
+    <Compile Include="Model\Rating.cs" />
+    <Compile Include="Views\RatingControl.xaml.cs">
       <DependentUpon>RatingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="RatingsRepository.cs" />
-    <Compile Include="ToolbarControl.xaml.cs">
+    <Compile Include="Views\ToolbarControl.xaml.cs">
       <DependentUpon>ToolbarControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Track.cs" />
-    <Compile Include="TrackListControl.xaml.cs">
+    <Compile Include="Model\Track.cs" />
+    <Compile Include="Views\TrackListControl.xaml.cs">
       <DependentUpon>TrackListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TrackViewModel.cs" />
-    <Compile Include="UpdateSourceOnTextChangedBehaviour.cs" />
+    <Compile Include="ViewModels\TrackViewModel.cs" />
+    <Compile Include="MvvmUtils\UpdateSourceOnTextChangedBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -141,35 +141,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoadingView.xaml">
+    <Page Include="Views\LoadingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainPage.xaml">
+    <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MarkProgressBar.xaml">
+    <Page Include="ResourceDictionaries\MarkProgressBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MarkRoundButton.xaml">
+    <Page Include="ResourceDictionaries\MarkRoundButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PositionControl.xaml">
+    <Page Include="Views\PositionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RatingControl.xaml">
+    <Page Include="Views\RatingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ToolbarControl.xaml">
+    <Page Include="Views\ToolbarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TrackListControl.xaml">
+    <Page Include="Views\TrackListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -181,9 +181,7 @@
   <ItemGroup>
     <None Include="Properties\OutOfBrowserSettings.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
