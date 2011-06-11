@@ -30,6 +30,7 @@ namespace MusicRater
         private DispatcherTimer timer;
         private bool dirtyFlag;
         private bool anonymousMode = true;
+        private bool isLoading;
 
         public MainPageViewModel(MediaElement me)
         {
@@ -58,6 +59,7 @@ namespace MusicRater
 
             ITrackLoader loader = new CombinedTrackLoader();
             loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
+            this.IsLoading = true;
             loader.BeginLoad();
         }
 
@@ -85,6 +87,7 @@ namespace MusicRater
                 }
                 this.Tracks.View.MoveCurrentToFirst();
             }
+            this.IsLoading = false;
         }
 
         void trackViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -114,7 +117,23 @@ namespace MusicRater
         }
 
         public double Duration { get; set; }
-        
+
+        public bool IsLoading
+        {
+            get
+            {
+                return this.isLoading;
+            }
+            set
+            {
+                if (this.isLoading != value)
+                {
+                    this.isLoading = value;
+                    RaisePropertyChanged("IsLoading");
+                }
+            }
+        }
+
         public double PlaybackPosition
         {
             get

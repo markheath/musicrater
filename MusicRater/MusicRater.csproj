@@ -93,15 +93,20 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BoolToVisibilityConverter.cs" />
     <Compile Include="CombinedTrackLoader.cs" />
     <Compile Include="Criteria.cs" />
     <Compile Include="DummyViewModels\DummyErrorMessageViewModel.cs" />
+    <Compile Include="DummyViewModels\DummyMainWindowViewModel.cs" />
     <Compile Include="ErrorMessageWindow.xaml.cs">
       <DependentUpon>ErrorMessageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="IsolatedStoreTrackLoader.cs" />
     <Compile Include="ITrackLoader.cs" />
     <Compile Include="KvrTrackLoader.cs" />
+    <Compile Include="LoadingView.xaml.cs">
+      <DependentUpon>LoadingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -134,6 +139,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="ErrorMessageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoadingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

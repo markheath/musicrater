@@ -3,9 +3,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:dummy="clr-namespace:MusicRater.DummyViewModels"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" 
+    xmlns:my="clr-namespace:MusicRater"
     mc:Ignorable="d"
-    d:DesignHeight="500" d:DesignWidth="400" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" xmlns:my="clr-namespace:MusicRater">
-
+    d:DataContext="{Binding Source={StaticResource viewModel}}"
+    d:DesignHeight="500" d:DesignWidth="400">
+    <UserControl.Resources>
+        <my:BoolToVisibilityConverter x:Key="boolConverter" />
+        <dummy:DummyMainWindowViewModel x:Key="viewModel" />
+    </UserControl.Resources>
     <Grid x:Name="LayoutRoot" Background="#333333">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -19,5 +26,6 @@
         <sdk:Label Height="28" Margin="5,0,0,0" Name="label1" VerticalAlignment="Top" Foreground="Red" Content="{Binding ErrorMessage}" Grid.Row="1" />
         <my:TrackListControl Grid.Row="2" Margin="5" x:Name="trackListControl1"  />
         <my:RatingControl Grid.Row="3" Margin="5" x:Name="ratingControl1" DataContext="{Binding Tracks.View.CurrentItem}" />
+        <my:LoadingView Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource boolConverter}}"/>
     </Grid>
 </UserControl>
