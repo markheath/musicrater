@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +10,7 @@ using System.Windows.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MusicRater.ViewModels;
+using System.Collections.Generic;
 
 namespace MusicRater
 {
@@ -16,7 +18,7 @@ namespace MusicRater
     {
         private MediaElement me;
         private string errorMessage;
-        private ObservableCollection<TrackViewModel> tracksInternal; // this technique from http://www.silverlightplayground.org/post/2009/07/18/Use-CollectionViewSource-effectively-in-MVVM-applications.aspx
+        private TrackViewModel selectedTrack;
         private DispatcherTimer timer;
         private bool dirtyFlag;
         private bool isLoading;
@@ -36,15 +38,12 @@ namespace MusicRater
             timer.Tick += new EventHandler(timer_Tick);
             timer.Start();
 
-            this.tracksInternal = new ObservableCollection<TrackViewModel>();
-            this.Tracks = new CollectionViewSource();
-            this.Tracks.Source = tracksInternal;
-            this.Tracks.View.CurrentChanged += new EventHandler(CurrentSelectionChanged);
+            this.Tracks = new ObservableCollection<TrackViewModel>();
             this.PlayCommand = new RelayCommand(() => Play());
             this.PauseCommand = new RelayCommand(() => Pause());
             this.NextCommand = new RelayCommand(() => Next());
             this.PrevCommand = new RelayCommand(() => Prev());
-            this.AnonCommand = new AnonymiseCommand(this.tracksInternal);
+            this.AnonCommand = new AnonymiseCommand(this.Tracks);
 
             ITrackLoader loader = new CombinedTrackLoader();
             loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
@@ -52,11 +51,13 @@ namespace MusicRater
             loader.BeginLoad();
         }
 
-        void CurrentSelectionChanged(object sender, EventArgs e)
+        void CurrentSelectionChanged()
         {
             me.Source = new Uri(this.SelectedTrack.Url, UriKind.Absolute);
             me.Position = TimeSpan.Zero;
+            DownloadProgress = 0;
             RaisePropertyChanged("PlaybackPosition");
+            RaisePropertyChanged("DownloadProgress");
         }
 
         void loader_Loaded(object sender, LoadedEventArgs e)
@@ -72,9 +73,9 @@ namespace MusicRater
                     var trackViewModel = new TrackViewModel(t);
                     trackViewModel.AnonymousMode = this.AnonCommand.AnonymousMode;
                     trackViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(trackViewModel_PropertyChanged);
-                    tracksInternal.Add(trackViewModel);
+                    this.Tracks.Add(trackViewModel);
                 }
-                this.Tracks.View.MoveCurrentToFirst();
+                this.SelectedTrack = this.Tracks.FirstOrDefault();
             }
             this.IsLoading = false;
         }
@@ -93,7 +94,7 @@ namespace MusicRater
             if (dirtyFlag == true)
             {
                 RatingsRepository repo = new RatingsRepository();
-                repo.Save(this.tracksInternal);
+                repo.Save(this.Tracks);
                 dirtyFlag = false;
             }
         }
@@ -147,37 +148,26 @@ namespace MusicRater
 
         private void Next()
         {
-            int originalIndex = Tracks.View.CurrentPosition;
-            int index = originalIndex;
-            do
-            {
-                index++;
-                if (index >= tracksInternal.Count)
-                {
-                    index = 0;
-                }
-                if (!tracksInternal[index].IsExcluded)
-                {
-                    Tracks.View.MoveCurrentToPosition(index);
-                    break;
-                }
-            } while (index != originalIndex);
+            SelectNext(this.Tracks);
         }
 
         private void Prev()
         {
-            int index = Tracks.View.CurrentPosition;
-            index--;
-            if (index < 0)
+            SelectNext(this.Tracks.Reverse());
+        }
+
+        private void SelectNext(IEnumerable<TrackViewModel> tracks)
+        {
+            var nextTrack = tracks.OnceRoundStartingAfter(SelectedTrack).Where(t => !t.IsExcluded).FirstOrDefault();
+            if (nextTrack != null)
             {
-                index = tracksInternal.Count - 1;
+                SelectedTrack = nextTrack;
             }
-            Tracks.View.MoveCurrentToPosition(index);
         }
 
         public double BufferingProgress { get; private set; }
         public double DownloadProgress { get; private set; }
-        public CollectionViewSource Tracks { get; private set; }
+        public ObservableCollection<TrackViewModel> Tracks { get; private set; }
         public ICommand PlayCommand { get; private set; }
         public ICommand PauseCommand { get; private set; }
         public ICommand NextCommand { get; private set; }
@@ -204,9 +194,17 @@ namespace MusicRater
         {
             get
             {
-                return (TrackViewModel)Tracks.View.CurrentItem;
+                return selectedTrack;
             }
-
+            set
+            {
+                if (selectedTrack != value)
+                {
+                    selectedTrack = value;
+                    RaisePropertyChanged("SelectedTrack");
+                    CurrentSelectionChanged();
+                }
+            }
         }
     }
 }

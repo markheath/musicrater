@@ -17,12 +17,13 @@ namespace MusicRater.Tests
     [TestClass]
     public class RatingsRepositoryTests
     {
+        /* no longer valid
         [TestMethod]
         public void NoExceptionIfNotFound()
         {
             RatingsRepository rr = new RatingsRepository();
             var r = rr.Load();
             Assert.AreEqual(0, r.Count());
-        }
+        }*/
     }
 }

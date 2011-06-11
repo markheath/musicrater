@@ -7,7 +7,7 @@
     d:DesignHeight="300" d:DesignWidth="400">
 
     <Border Background="#304060" CornerRadius="5">
-        <ListBox x:Name="listBox1" Grid.Row="1" ItemsSource="{Binding Tracks.View}">
+        <ListBox x:Name="listBox1" Grid.Row="1" ItemsSource="{Binding Tracks}" SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
