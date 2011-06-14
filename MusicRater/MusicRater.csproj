@@ -68,6 +68,9 @@
     <Reference Include="GalaSoft.MvvmLight.SL4">
       <HintPath>..\packages\MvvmLight.3.0.2\lib\SL4\GalaSoft.MvvmLight.SL4.dll</HintPath>
     </Reference>
+    <Reference Include="MarkHeath.StarRating">
+      <HintPath>..\packages\MarkHeath.StarRating.1.0.6\lib\sl40\MarkHeath.StarRating.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\SL30\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
