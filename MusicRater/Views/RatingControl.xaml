@@ -5,7 +5,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:my="clr-namespace:MusicRater"
-    xmlns:dummy="clr-namespace:MusicRater.DummyViewModels"    
+    xmlns:dummy="clr-namespace:MusicRater.DummyViewModels"  
+    xmlns:star="clr-namespace:MarkHeath.StarRating;assembly=MarkHeath.StarRating"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400"
              d:DataContext="{Binding Source={StaticResource viewModel}}">
@@ -18,9 +19,10 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Verdana" FontWeight="Bold" Foreground="White" Text="{Binding Name}" Width="100"/>
-                            <Slider Margin="10,0"  Value="{Binding Value, Mode=TwoWay}" Minimum="0" Maximum="10" Width="100"/>
-                            <TextBlock Margin="10,0" FontFamily="Verdana" FontWeight="Bold" Foreground="White" Text="{Binding Value}" />
+                            <TextBlock VerticalAlignment="Center" FontFamily="Verdana" FontWeight="Bold" Foreground="White" Text="{Binding Name}" Width="100"/>
+                            <star:StarRatingControl Margin="10,1" Rating="{Binding Value, Mode=TwoWay}" Height="18" Width="90" />
+                            <!--<Slider Margin="10,0"  Value="{Binding Value, Mode=TwoWay}" Minimum="0" Maximum="10" Width="100"/>-->
+                            <!--<TextBlock VerticalAlignment="Center" Margin="10,0" FontFamily="Verdana" FontWeight="Bold" Foreground="White" Text="{Binding Value}" />-->
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
