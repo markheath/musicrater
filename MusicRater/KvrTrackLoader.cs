@@ -9,25 +9,28 @@ namespace MusicRater
     public class KvrTrackLoader : ITrackLoader
     {
         public event EventHandler<LoadedEventArgs> Loaded;
+        private string trackListUri;
 
-        public KvrTrackLoader()
+        public KvrTrackLoader(string trackListUri)
         {
-
+            this.trackListUri = trackListUri; 
+            
         }
 
         public void BeginLoad()
         {
             WebClient wc = new WebClient();
-            Uri trackListUri = new Uri("http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml", UriKind.Absolute);
+            Uri uri = new Uri(this.trackListUri, UriKind.Absolute);
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
-            wc.DownloadStringAsync(trackListUri);
+            wc.DownloadStringAsync(uri);
         }
 
         void wc_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             if (e.Error == null)
             {
-                LoadTrackList(e.Result, "http://www.archive.org/download/KvrOsc28TyrellN6/");
+                string path = this.trackListUri.Substring(0,this.trackListUri.LastIndexOf('/')+1);
+                LoadTrackList(e.Result, path);
             }
             else
             {

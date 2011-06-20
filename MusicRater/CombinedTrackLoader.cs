@@ -29,7 +29,7 @@ namespace MusicRater
             }
             else
             {
-                KvrTrackLoader kvrLoader = new KvrTrackLoader();
+                KvrTrackLoader kvrLoader = new KvrTrackLoader("http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml");
                 kvrLoader.Loaded += (s, args) => RaiseLoadedEvent(args);
                 kvrLoader.BeginLoad();
             }
