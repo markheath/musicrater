@@ -17,6 +17,12 @@ namespace MusicRater
         public ErrorMessageWindow()
         {
             InitializeComponent();
+            this.Loaded += new RoutedEventHandler(ErrorMessageWindow_Loaded);
+        }
+
+        void ErrorMessageWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

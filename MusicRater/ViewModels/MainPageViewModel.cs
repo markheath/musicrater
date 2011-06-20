@@ -16,8 +16,7 @@ namespace MusicRater
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private MediaElement me;
-        private string errorMessage;
+        private MediaElement me;        
         private TrackViewModel selectedTrack;
         private DispatcherTimer timer;
         private bool dirtyFlag;
@@ -28,7 +27,7 @@ namespace MusicRater
             this.me = me;
             this.me.AutoPlay = false;
             this.me.BufferingProgressChanged += (s, e) => { this.BufferingProgress = me.BufferingProgress; RaisePropertyChanged("BufferingProgress"); };
-            this.me.MediaFailed += (s, e) => this.ErrorMessage = e.ErrorException.Message;
+            this.me.MediaFailed += (s, e) => this.ShowError("Error loading " + me.Source.ToString()); // e.ErrorException.Message
             this.me.MediaOpened += me_MediaOpened;
             this.me.MediaEnded += (s, e) => { SelectedTrack.Listens++; Next(); };
             this.me.DownloadProgressChanged += (s, e) => { this.DownloadProgress = me.DownloadProgress * 100; RaisePropertyChanged("DownloadProgress"); };
@@ -64,7 +63,7 @@ namespace MusicRater
         {
             if (e.Error != null)
             {
-                this.ErrorMessage = e.Error.Message;
+                this.ShowError(e.Error.Message);
             }
             else
             {
@@ -174,20 +173,11 @@ namespace MusicRater
         public ICommand PrevCommand { get; private set; }
         public AnonymiseCommand AnonCommand { get; private set; }
 
-        public string ErrorMessage
+        private void ShowError(string message)
         {
-            get
-            {
-                return errorMessage;
-            }
-            set
-            {
-                if (this.errorMessage != value)
-                {
-                    this.errorMessage = value;
-                    RaisePropertyChanged("ErrorMessage");
-                }
-            }
+            ErrorMessageWindow w = new ErrorMessageWindow();
+            w.DataContext = new ErrorMessageWindowViewModel() { Message = message };            
+            w.Show();
         }
 
         public TrackViewModel SelectedTrack
@@ -205,6 +195,11 @@ namespace MusicRater
                     CurrentSelectionChanged();
                 }
             }
+        }
+
+        public class ErrorMessageWindowViewModel
+        {
+            public string Message { get; set; }
         }
     }
 }

@@ -19,7 +19,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" Name="textBlock1" Text="{Binding Message}" VerticalAlignment="Top" />
-
+        <Rectangle Fill="Bisque" />
+        <TextBlock HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" Text="{Binding Message}" VerticalAlignment="Top" />
     </Grid>
 </controls:ChildWindow>

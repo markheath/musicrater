@@ -23,9 +23,8 @@
         <MediaElement x:Name="mediaElement1" />
         <my:ToolbarControl Margin="5" />
         <my:PositionControl Grid.Row="1" Margin="5" />
-        <sdk:Label Height="28" Margin="5,0,0,0" Name="label1" VerticalAlignment="Top" Foreground="Red" Content="{Binding ErrorMessage}" Grid.Row="1" />
         <my:TrackListControl Grid.Row="2" Margin="5" x:Name="trackListControl1"  />
         <my:RatingControl Grid.Row="3" Margin="5" x:Name="ratingControl1" DataContext="{Binding SelectedTrack}" />
-        <my:LoadingView Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource boolConverter}}"/>
+        <my:LoadingView Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource boolConverter}}"/>        
     </Grid>
 </UserControl>

@@ -17,7 +17,7 @@ namespace MusicRater.DummyViewModels
         {
             get
             {
-                return "Ham hock ball tip deserunt ad non corned beef. Hamburger tail aute beef ribs. Et ut enim eiusmod. Consectetur aute in, pork belly short loin consequat ground round. Consequat t-bone non tongue. Proident minim magna, aliquip nisi tongue est. Enim pork exercitation shank tempor ut.";
+                return "Hello world";
             }
         }
     }
