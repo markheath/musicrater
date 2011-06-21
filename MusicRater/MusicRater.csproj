@@ -103,7 +103,7 @@
     <Compile Include="DummyViewModels\DummyErrorMessageViewModel.cs" />
     <Compile Include="DummyViewModels\DummyMainWindowViewModel.cs" />
     <Compile Include="DummyViewModels\DummyPositionControlViewModel.cs" />
-    <Compile Include="ErrorMessageWindow.xaml.cs">
+    <Compile Include="Views\ErrorMessageWindow.xaml.cs">
       <DependentUpon>ErrorMessageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="IsolatedStoreTrackLoader.cs" />
@@ -144,7 +144,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="ErrorMessageWindow.xaml">
+    <Page Include="Views\ErrorMessageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
