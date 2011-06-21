@@ -96,6 +96,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DummyViewModels\DummyConfigWindowViewModel.cs" />
     <Compile Include="DummyViewModels\DummyRatingControlViewModel.cs" />
     <Compile Include="MvvmUtils\BoolToVisibilityConverter.cs" />
     <Compile Include="CombinedTrackLoader.cs" />
@@ -103,6 +104,9 @@
     <Compile Include="DummyViewModels\DummyErrorMessageViewModel.cs" />
     <Compile Include="DummyViewModels\DummyMainWindowViewModel.cs" />
     <Compile Include="DummyViewModels\DummyPositionControlViewModel.cs" />
+    <Compile Include="Views\ConfigWindow.xaml.cs">
+      <DependentUpon>ConfigWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ErrorMessageWindow.xaml.cs">
       <DependentUpon>ErrorMessageWindow.xaml</DependentUpon>
     </Compile>
@@ -144,6 +148,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Views\ConfigWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ErrorMessageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
