@@ -45,19 +45,18 @@ namespace MusicRater.Tests
 
         [TestMethod]
         [Asynchronous]
-        public void WaitForABit()
+        public void WaitForUserToClickPlay()
         {
-            // need to work out how to make it interactive here
-            //this.EnqueueDelay(5000);
+            // need to work out how to make it interactive here            
             viewModel.PlayCommand.Executed += (sender, args) => this.TestComplete();
         }        
     }
 
     [TestClass]
+    [Tag("ManualVerify")]
     public class ToolbarControlManualVerifyTests : SilverlightTest
     {
         private ManualVerifyTestPresenter presenter;
-        private TestToolbarControlViewModel viewModel;
 
         [TestInitialize]
         public void SetUp()
