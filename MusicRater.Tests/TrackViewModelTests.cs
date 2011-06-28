@@ -41,5 +41,15 @@ namespace MusicRater.Tests
             tvm.SubRatings.First().Value++;
             Assert.IsNotNull(nea);
         }
+
+        [TestMethod]
+        public void TrackViewModelShouldHideUserNameInAnonymousMode()
+        {
+            TrackViewModel tvm = new TrackViewModel(new Track(new Rating[] { }));
+            tvm.AnonymousMode = true;
+            tvm.Author = "Fred";
+            Assert.AreEqual("Anonymous", tvm.DisplayAuthor);
+        }
+        
     }
 }
