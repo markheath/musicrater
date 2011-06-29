@@ -14,16 +14,13 @@ namespace MusicRater
 {
     public class IsolatedStoreTrackLoader : ITrackLoader
     {
-        public IsolatedStoreTrackLoader()
-        {
-
-        }
-
         public void BeginLoad()
         {
-            RatingsRepository repo = new RatingsRepository();
             var tracks = new List<Track>();
-            tracks.AddRange(repo.Load());
+            using (RatingsRepository repo = new RatingsRepository(new IsolatedStore()))
+            { 
+                tracks.AddRange(repo.Load());
+            }
             KvrTrackLoader.Shuffle(tracks, new Random());
             if (Loaded != null)
             {

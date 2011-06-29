@@ -16,55 +16,55 @@ using System.Linq;
 
 namespace MusicRater
 {
-    public class RatingsRepository
+    public class RatingsRepository : IDisposable
     {
+        private readonly IIsolatedStore isolatedStore;
+
+        public RatingsRepository(IIsolatedStore isolatedStore)
+        {
+            this.isolatedStore = isolatedStore;
+        }
+
         public void Save(IEnumerable<TrackViewModel> tracks)
         {
-            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                XDocument xdoc = new XDocument();
-                var trackNodes = from t in tracks
-                                 select new XElement("Track",
-                                         new XAttribute("Author", t.Author),
-                                         new XAttribute("Title", t.Title),
-                                         new XAttribute("Url", t.Url),
-                                         new XAttribute("Listens", t.Listens),
-                                         new XAttribute("IsExcluded", t.IsExcluded),
-                                         new XElement("Comments", t.Comments),
-                                         new XElement("SubRatings",
-                                             from s in t.SubRatings
-                                             select new XElement("SubRating",
-                                                 new XAttribute("Name", s.Name),
-                                                 new XAttribute("Weight", s.Criteria.Weight),
-                                                 new XAttribute("Value", s.Value))
-                                      )
-                             );
+            XDocument xdoc = new XDocument();
+            var trackNodes = from t in tracks
+                             select new XElement("Track",
+                                     new XAttribute("Author", t.Author),
+                                     new XAttribute("Title", t.Title),
+                                     new XAttribute("Url", t.Url),
+                                     new XAttribute("Listens", t.Listens),
+                                     new XAttribute("IsExcluded", t.IsExcluded),
+                                     new XElement("Comments", t.Comments),
+                                     new XElement("SubRatings",
+                                         from s in t.SubRatings
+                                         select new XElement("SubRating",
+                                             new XAttribute("Name", s.Name),
+                                             new XAttribute("Weight", s.Criteria.Weight),
+                                             new XAttribute("Value", s.Value))
+                                  )
+                         );
 
-                var xelement = new XElement("Tracks", trackNodes);
-                using (var outWriter = new StreamWriter(store.OpenFile(@"tracks.xml", FileMode.Create)))
-                {
-                    outWriter.Write(xelement.ToString());
-                }
+            var xelement = new XElement("Tracks", trackNodes);
+            using (var outWriter = new StreamWriter(isolatedStore.CreateFile("tracks.xml")))
+            {
+                outWriter.Write(xelement.ToString());
             }
         }
 
         public IEnumerable<Track> Load()
         {
             var criteria = new Dictionary<string, Criteria>();
-            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            if (!isolatedStore.FileExists("tracks.xml"))
             {
-                if (!store.FileExists("tracks.xml"))
+                yield break;
+            }
+            using (var reader = isolatedStore.OpenFile("tracks.xml"))
+            {
+                XDocument doc = XDocument.Load(reader);
+                foreach (var trackNode in doc.Element("Tracks").Elements("Track"))
                 {
-                    yield break;
-                }
-                using (var reader = store.OpenFile("tracks.xml", FileMode.Open))
-                {
-                    XDocument doc = XDocument.Load(reader);
-                    foreach(var trackNode in doc.Element("Tracks").Elements("Track"))
-                    {
-                        yield return CreateTrackFromNode(trackNode, criteria);
-                    }
-                            
+                    yield return CreateTrackFromNode(trackNode, criteria);
                 }
             }
         }
@@ -103,6 +103,11 @@ namespace MusicRater
                 t.Comments = trackNode.Element("Comments").Value;
             }
             return t;
+        }
+
+        public void Dispose()
+        {
+            this.isolatedStore.Dispose();
         }
     }
 }

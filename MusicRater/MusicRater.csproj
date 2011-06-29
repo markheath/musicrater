@@ -98,6 +98,8 @@
     </Compile>
     <Compile Include="DummyViewModels\DummyConfigWindowViewModel.cs" />
     <Compile Include="DummyViewModels\DummyRatingControlViewModel.cs" />
+    <Compile Include="IIsolatedStore.cs" />
+    <Compile Include="IsolatedStore.cs" />
     <Compile Include="MvvmUtils\BoolToVisibilityConverter.cs" />
     <Compile Include="CombinedTrackLoader.cs" />
     <Compile Include="Model\Criteria.cs" />

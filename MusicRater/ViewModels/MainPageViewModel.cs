@@ -92,8 +92,10 @@ namespace MusicRater
             }
             if (dirtyFlag == true)
             {
-                RatingsRepository repo = new RatingsRepository();
-                repo.Save(this.Tracks);
+                using (RatingsRepository repo = new RatingsRepository(new IsolatedStore()))
+                { 
+                    repo.Save(this.Tracks);
+                }
                 dirtyFlag = false;
             }
         }
