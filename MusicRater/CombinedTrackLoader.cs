@@ -16,7 +16,7 @@ namespace MusicRater
     {
         public void BeginLoad()
         {
-            IsolatedStoreTrackLoader loader = new IsolatedStoreTrackLoader();
+            IsolatedStoreTrackLoader loader = new IsolatedStoreTrackLoader("tracks.xml");
             loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
             loader.BeginLoad();
         }

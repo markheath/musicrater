@@ -94,7 +94,7 @@ namespace MusicRater
             {
                 using (RatingsRepository repo = new RatingsRepository(new IsolatedStore()))
                 { 
-                    repo.Save(this.Tracks);
+                    repo.Save(this.Tracks, "tracks.xml");
                 }
                 dirtyFlag = false;
             }

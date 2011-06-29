@@ -25,7 +25,7 @@ namespace MusicRater
             this.isolatedStore = isolatedStore;
         }
 
-        public void Save(IEnumerable<TrackViewModel> tracks)
+        public void Save(IEnumerable<TrackViewModel> tracks, string fileName)
         {
             XDocument xdoc = new XDocument();
             var trackNodes = from t in tracks
@@ -46,20 +46,20 @@ namespace MusicRater
                          );
 
             var xelement = new XElement("Tracks", trackNodes);
-            using (var outWriter = new StreamWriter(isolatedStore.CreateFile("tracks.xml")))
+            using (var outWriter = new StreamWriter(isolatedStore.CreateFile(fileName)))
             {
                 outWriter.Write(xelement.ToString());
             }
         }
 
-        public IEnumerable<Track> Load()
+        public IEnumerable<Track> Load(string fileName)
         {
             var criteria = new Dictionary<string, Criteria>();
-            if (!isolatedStore.FileExists("tracks.xml"))
+            if (!isolatedStore.FileExists(fileName))
             {
                 yield break;
             }
-            using (var reader = isolatedStore.OpenFile("tracks.xml"))
+            using (var reader = isolatedStore.OpenFile(fileName))
             {
                 XDocument doc = XDocument.Load(reader);
                 foreach (var trackNode in doc.Element("Tracks").Elements("Track"))

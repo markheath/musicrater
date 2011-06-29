@@ -22,9 +22,10 @@ namespace MusicRater.Tests
         public void ShouldNotThrowAnExceptionIfFileNotFound()
         {
             var iso = new Mock<IIsolatedStore>();
-            iso.Setup((x) => x.FileExists(It.IsAny<string>())).Returns(false);
+            string fileName = "blah.xml";
+            iso.Setup((x) => x.FileExists(fileName)).Returns(false);
             RatingsRepository rr = new RatingsRepository(iso.Object);
-            var r = rr.Load();
+            var r = rr.Load(fileName);
             Assert.AreEqual(0, r.Count());
         }
     }
