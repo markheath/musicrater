@@ -11,19 +11,21 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Silverlight.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace MusicRater.Tests
 {
     [TestClass]
     public class RatingsRepositoryTests
     {
-        /* no longer valid
         [TestMethod]
-        public void NoExceptionIfNotFound()
+        public void ShouldNotThrowAnExceptionIfFileNotFound()
         {
-            RatingsRepository rr = new RatingsRepository();
+            var iso = new Mock<IIsolatedStore>();
+            iso.Setup((x) => x.FileExists(It.IsAny<string>())).Returns(false);
+            RatingsRepository rr = new RatingsRepository(iso.Object);
             var r = rr.Load();
             Assert.AreEqual(0, r.Count());
-        }*/
+        }
     }
 }

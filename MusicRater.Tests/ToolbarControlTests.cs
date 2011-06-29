@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Silverlight.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace MusicRater.Tests
 {
@@ -78,7 +80,9 @@ namespace MusicRater.Tests
         public void CheckShuffledList()
         {
             var lb = new ListBox();
-            lb.ItemsSource = new [] {1,2,3,4,5,6,7,8,9,10,11,12};
+            var numbers = (new [] {1,2,3,4,5,6,7,8,9,10,11,12}).ToArray();
+            KvrTrackLoader.Shuffle<int>(numbers, new Random());
+            lb.ItemsSource = numbers;
             this.presenter.Init("Confirm that these numbers are in random order.",
                 lb, this);
         }
