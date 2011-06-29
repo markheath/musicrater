@@ -27,7 +27,6 @@ namespace MusicRater
 
         public void Save(IEnumerable<TrackViewModel> tracks, string fileName)
         {
-            XDocument xdoc = new XDocument();
             var trackNodes = from t in tracks
                              select new XElement("Track",
                                      new XAttribute("Author", t.Author),
