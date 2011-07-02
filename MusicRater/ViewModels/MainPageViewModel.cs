@@ -21,6 +21,7 @@ namespace MusicRater
         private DispatcherTimer timer;
         private bool dirtyFlag;
         private bool isLoading;
+        private string contestFileName = "KVR-OSC-29.xml";
 
         public MainPageViewModel(MediaElement me)
         {
@@ -46,7 +47,7 @@ namespace MusicRater
 
             //"http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml"
             KvrTrackLoader kvrLoader = new KvrTrackLoader("http://www.archive.org/download/KvrOsc29StringTheory/KvrOsc29StringTheory_files.xml");
-            ITrackLoader loader = new CombinedTrackLoader(kvrLoader, "KVR-OSC-29.xml");
+            ITrackLoader loader = new CombinedTrackLoader(kvrLoader, contestFileName);
             loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
             this.IsLoading = true;
             loader.BeginLoad();
@@ -96,7 +97,7 @@ namespace MusicRater
             {
                 using (RatingsRepository repo = new RatingsRepository(new IsolatedStore()))
                 { 
-                    repo.Save(this.Tracks, "tracks.xml");
+                    repo.Save(this.Tracks, this.contestFileName);
                 }
                 dirtyFlag = false;
             }
