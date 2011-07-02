@@ -14,9 +14,18 @@ namespace MusicRater
 {
     public class CombinedTrackLoader : ITrackLoader
     {
+        private readonly ITrackLoader firstTimeLoader;
+        private readonly string fileName;
+
+        public CombinedTrackLoader(ITrackLoader firstTimeLoader, string fileName)
+        {
+            this.firstTimeLoader = firstTimeLoader;
+            this.fileName = fileName;
+        }
+
         public void BeginLoad()
         {
-            IsolatedStoreTrackLoader loader = new IsolatedStoreTrackLoader("tracks.xml");
+            IsolatedStoreTrackLoader loader = new IsolatedStoreTrackLoader(fileName);
             loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
             loader.BeginLoad();
         }
@@ -29,9 +38,8 @@ namespace MusicRater
             }
             else
             {
-                KvrTrackLoader kvrLoader = new KvrTrackLoader("http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml");
-                kvrLoader.Loaded += (s, args) => RaiseLoadedEvent(args);
-                kvrLoader.BeginLoad();
+                firstTimeLoader.Loaded += (s, args) => RaiseLoadedEvent(args);
+                firstTimeLoader.BeginLoad();
             }
         }
 
