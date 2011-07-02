@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using Microsoft.Practices.Unity;
 
 namespace MusicRater
 {
@@ -27,13 +26,6 @@ namespace MusicRater
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            IUnityContainer container = new UnityContainer();
-            container.RegisterType<IModalDialogService, ModalDialogService>();
-            //container.RegisterType<IMessageBoxService, MessageBoxService>();
-            //container.Register<IMainPageViewModel, MainPageViewModel>();
-
-            container.RegisterType<IModalWindow, ErrorMessageWindow>("ErrorMessage");
-
             var mainPage = new MainPage();
             mainPage.DataContext = new MainPageViewModel(mainPage.mediaElement1);
             this.RootVisual = mainPage;
