@@ -107,7 +107,7 @@ namespace MusicRater.Tests
             return true;
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged = (o,e) => {};
 
         public void Execute(object parameter)
         {

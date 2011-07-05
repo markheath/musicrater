@@ -93,6 +93,7 @@
     <Compile Include="DummyViewModels\DummyConfigWindowViewModel.cs" />
     <Compile Include="DummyViewModels\DummyRatingControlViewModel.cs" />
     <Compile Include="DummyViewModels\DummyTrackListControlViewModel.cs" />
+    <Compile Include="MvvmUtils\DialogCloser.cs" />
     <Compile Include="Persistence\IIsolatedStore.cs" />
     <Compile Include="Persistence\IsolatedStore.cs" />
     <Compile Include="MvvmUtils\BoolToVisibilityConverter.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="DummyViewModels\DummyErrorMessageViewModel.cs" />
     <Compile Include="DummyViewModels\DummyMainWindowViewModel.cs" />
     <Compile Include="DummyViewModels\DummyPositionControlViewModel.cs" />
+    <Compile Include="ViewModels\ConfigWindowViewModel.cs" />
     <Compile Include="Views\ConfigWindow.xaml.cs">
       <DependentUpon>ConfigWindow.xaml</DependentUpon>
     </Compile>
