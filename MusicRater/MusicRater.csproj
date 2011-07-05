@@ -93,10 +93,10 @@
     <Compile Include="DummyViewModels\DummyConfigWindowViewModel.cs" />
     <Compile Include="DummyViewModels\DummyRatingControlViewModel.cs" />
     <Compile Include="DummyViewModels\DummyTrackListControlViewModel.cs" />
-    <Compile Include="IIsolatedStore.cs" />
-    <Compile Include="IsolatedStore.cs" />
+    <Compile Include="Persistence\IIsolatedStore.cs" />
+    <Compile Include="Persistence\IsolatedStore.cs" />
     <Compile Include="MvvmUtils\BoolToVisibilityConverter.cs" />
-    <Compile Include="CombinedTrackLoader.cs" />
+    <Compile Include="Persistence\CombinedTrackLoader.cs" />
     <Compile Include="Model\Criteria.cs" />
     <Compile Include="DummyViewModels\DummyErrorMessageViewModel.cs" />
     <Compile Include="DummyViewModels\DummyMainWindowViewModel.cs" />
@@ -107,9 +107,9 @@
     <Compile Include="Views\ErrorMessageWindow.xaml.cs">
       <DependentUpon>ErrorMessageWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="IsolatedStoreTrackLoader.cs" />
-    <Compile Include="ITrackLoader.cs" />
-    <Compile Include="KvrTrackLoader.cs" />
+    <Compile Include="Persistence\IsolatedStoreTrackLoader.cs" />
+    <Compile Include="Persistence\ITrackLoader.cs" />
+    <Compile Include="Persistence\KvrTrackLoader.cs" />
     <Compile Include="MvvmUtils\ExtensionMethods.cs" />
     <Compile Include="MvvmUtils\SecondsToTimeDisplayConverter.cs" />
     <Compile Include="ViewModels\AnonymiseCommand.cs" />
@@ -129,7 +129,7 @@
     <Compile Include="Views\RatingControl.xaml.cs">
       <DependentUpon>RatingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RatingsRepository.cs" />
+    <Compile Include="Persistence\RatingsRepository.cs" />
     <Compile Include="Views\ToolbarControl.xaml.cs">
       <DependentUpon>ToolbarControl.xaml</DependentUpon>
     </Compile>
@@ -197,9 +197,7 @@
   <ItemGroup>
     <None Include="Properties\OutOfBrowserSettings.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Db\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
