@@ -21,5 +21,6 @@
         </Grid.RowDefinitions>
         <Rectangle Fill="Bisque" />
         <TextBlock HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" Text="{Binding Message}" VerticalAlignment="Top" />
+        <Button Content="OK" Width="70" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click" />
     </Grid>
 </controls:ChildWindow>
