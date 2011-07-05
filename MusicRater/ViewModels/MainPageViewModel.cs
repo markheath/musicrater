@@ -77,7 +77,7 @@ namespace MusicRater
                     trackViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(trackViewModel_PropertyChanged);
                     this.Tracks.Add(trackViewModel);
                 }
-                this.SelectedTrack = this.Tracks.FirstOrDefault();
+                this.SelectedTrack = this.Tracks.Where(t => !t.IsExcluded).FirstOrDefault();
             }
             this.IsLoading = false;
         }
