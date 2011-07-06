@@ -10,7 +10,7 @@ namespace MusicRater.Tests
     public class ExtensionMethodsUnitTests
     {
         [TestMethod]
-        public void TestOnceRoundStartingFrom()
+        public void TestOnceRoundStartingAfter()
         {
             int[] numbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             int[] newList = numbers.OnceRoundStartingAfter(5).ToArray();

@@ -15,16 +15,18 @@ namespace MusicRater
     public class IsolatedStoreTrackLoader : ITrackLoader
     {
         public string FileName { get; private set; }
+        private readonly IIsolatedStore isoStore;
 
-        public IsolatedStoreTrackLoader(string fileName)
+        public IsolatedStoreTrackLoader(string fileName, IIsolatedStore isoStore)
         {
             this.FileName = fileName;
+            this.isoStore = isoStore;
         }
 
         public void BeginLoad()
         {
             var tracks = new List<Track>();
-            using (RatingsRepository repo = new RatingsRepository(new IsolatedStore()))
+            using (RatingsRepository repo = new RatingsRepository(isoStore))
             { 
                 tracks.AddRange(repo.Load(this.FileName));
             }

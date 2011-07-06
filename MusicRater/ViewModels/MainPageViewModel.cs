@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MusicRater.ViewModels;
-using System.Collections.Generic;
 
 namespace MusicRater
 {
@@ -47,7 +46,7 @@ namespace MusicRater
 
             //"http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml"
             var kvrLoader = new KvrTrackLoader("http://www.archive.org/download/KvrOsc29StringTheory/KvrOsc29StringTheory_files.xml");
-            var isoLoader = new IsolatedStoreTrackLoader(contestFileName);
+            var isoLoader = new IsolatedStoreTrackLoader(contestFileName, new IsolatedStore());
             ITrackLoader loader = new CombinedTrackLoader(kvrLoader, isoLoader);
             loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
             this.IsLoading = true;
