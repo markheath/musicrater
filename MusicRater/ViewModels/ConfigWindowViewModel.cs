@@ -69,8 +69,8 @@ namespace MusicRater.ViewModels
         {
             for (int n = 0; n < this.original.Count; n++)
             {
-                //this.original[n].Name = this.edited[n].Name;
-                //this.original[n].Weight = this.edited[n].Weight;
+                this.original[n].Name = this.edited[n].Name;
+                this.original[n].Weight = this.edited[n].Weight;
             }
             this.updateDialogResult(true);
         }

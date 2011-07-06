@@ -13,7 +13,7 @@ namespace MusicRater
             this.Weight = weight;
         }
 
-        public string Name { get; private set; }
-        public int Weight { get; private set; }
+        public string Name { get; set; }
+        public int Weight { get; set; }
     }
 }

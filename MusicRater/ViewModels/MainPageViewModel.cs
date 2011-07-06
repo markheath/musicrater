@@ -46,8 +46,9 @@ namespace MusicRater
             this.AnonCommand = new AnonymiseCommand(this.Tracks);
 
             //"http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml"
-            KvrTrackLoader kvrLoader = new KvrTrackLoader("http://www.archive.org/download/KvrOsc29StringTheory/KvrOsc29StringTheory_files.xml");
-            ITrackLoader loader = new CombinedTrackLoader(kvrLoader, contestFileName);
+            var kvrLoader = new KvrTrackLoader("http://www.archive.org/download/KvrOsc29StringTheory/KvrOsc29StringTheory_files.xml");
+            var isoLoader = new IsolatedStoreTrackLoader(contestFileName);
+            ITrackLoader loader = new CombinedTrackLoader(kvrLoader, isoLoader);
             loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
             this.IsLoading = true;
             loader.BeginLoad();

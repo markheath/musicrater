@@ -15,19 +15,18 @@ namespace MusicRater
     public class CombinedTrackLoader : ITrackLoader
     {
         private readonly ITrackLoader firstTimeLoader;
-        private readonly string fileName;
+        private readonly ITrackLoader subsequentLoader;
 
-        public CombinedTrackLoader(ITrackLoader firstTimeLoader, string fileName)
+        public CombinedTrackLoader(ITrackLoader firstTimeLoader, ITrackLoader subsequentLoader)
         {
             this.firstTimeLoader = firstTimeLoader;
-            this.fileName = fileName;
+            this.subsequentLoader = subsequentLoader;
+            subsequentLoader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
         }
 
         public void BeginLoad()
-        {
-            IsolatedStoreTrackLoader loader = new IsolatedStoreTrackLoader(fileName);
-            loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
-            loader.BeginLoad();
+        {            
+            subsequentLoader.BeginLoad();
         }
 
         void loader_Loaded(object sender, LoadedEventArgs e)
