@@ -9,31 +9,31 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using MusicRater.Model;
 
 namespace MusicRater
 {
     public class IsolatedStoreTrackLoader : ITrackLoader
     {
-        public string FileName { get; private set; }
         private readonly IIsolatedStore isoStore;
+        private readonly Contest contest;
 
-        public IsolatedStoreTrackLoader(string fileName, IIsolatedStore isoStore)
+        public IsolatedStoreTrackLoader(Contest contest, IIsolatedStore isoStore)
         {
-            this.FileName = fileName;
+            this.contest = contest;
             this.isoStore = isoStore;
         }
 
         public void BeginLoad()
         {
-            var tracks = new List<Track>();
             using (RatingsRepository repo = new RatingsRepository(isoStore))
-            { 
-                tracks.AddRange(repo.Load(this.FileName));
+            {
+                repo.Load(this.contest);
             }
-            KvrTrackLoader.Shuffle(tracks, new Random());
+            KvrTrackLoader.Shuffle(this.contest.Tracks, new Random());            
             if (Loaded != null)
             {
-                Loaded(this, new LoadedEventArgs() { Tracks = tracks });
+                Loaded(this, new LoadedEventArgs() { Tracks = this.contest.Tracks });
             }
         }
 

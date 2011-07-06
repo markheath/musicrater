@@ -3,6 +3,7 @@ using System.Linq;
 using GalaSoft.MvvmLight;
 using System.Windows.Input;
 using System;
+using MusicRater.Model;
 
 namespace MusicRater.ViewModels
 {

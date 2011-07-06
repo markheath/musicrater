@@ -10,6 +10,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
 using GalaSoft.MvvmLight;
+using MusicRater.Model;
 
 namespace MusicRater
 {

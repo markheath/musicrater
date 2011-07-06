@@ -13,6 +13,7 @@ using System.IO.IsolatedStorage;
 using System.IO;
 using System.Xml.Linq;
 using System.Linq;
+using MusicRater.Model;
 
 namespace MusicRater
 {
@@ -25,9 +26,9 @@ namespace MusicRater
             this.isolatedStore = isolatedStore;
         }
 
-        public void Save(IEnumerable<TrackViewModel> tracks, string fileName)
+        public void Save(Contest contest)
         {
-            var trackNodes = from t in tracks
+            var trackNodes = from t in contest.Tracks
                              select new XElement("Track",
                                      new XAttribute("Author", t.Author),
                                      new XAttribute("Title", t.Title),
@@ -45,27 +46,30 @@ namespace MusicRater
                          );
 
             var xelement = new XElement("Tracks", trackNodes);
-            using (var outWriter = new StreamWriter(isolatedStore.CreateFile(fileName)))
+            using (var outWriter = new StreamWriter(isolatedStore.CreateFile(contest.FileName)))
             {
                 outWriter.Write(xelement.ToString());
             }
         }
 
-        public IEnumerable<Track> Load(string fileName)
+        public bool Load(Contest contest)
         {
             var criteria = new Dictionary<string, Criteria>();
-            if (!isolatedStore.FileExists(fileName))
+            if (!isolatedStore.FileExists(contest.FileName))
             {
-                yield break;
+                return false;
             }
-            using (var reader = isolatedStore.OpenFile(fileName))
+            using (var reader = isolatedStore.OpenFile(contest.FileName))
             {
                 XDocument doc = XDocument.Load(reader);
                 foreach (var trackNode in doc.Element("Tracks").Elements("Track"))
                 {
-                    yield return CreateTrackFromNode(trackNode, criteria);
+                    var track = CreateTrackFromNode(trackNode, criteria);
+                    contest.Tracks.Add(track);
                 }
+                contest.Criteria.AddRange(criteria.Values);
             }
+            return true;
         }
 
         private Track CreateTrackFromNode(XElement trackNode, Dictionary<string, Criteria> criteriaDictionary)

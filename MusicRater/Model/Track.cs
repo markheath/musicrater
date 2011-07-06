@@ -6,7 +6,7 @@ using GalaSoft.MvvmLight;
 using System.Diagnostics;
 using System.Windows.Media;
 
-namespace MusicRater
+namespace MusicRater.Model
 {
     public class Track
     {

@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Xml.Linq;
+using MusicRater.Model;
 
 namespace MusicRater
 {
     public class KvrTrackLoader : ITrackLoader
     {
         public event EventHandler<LoadedEventArgs> Loaded;
-        private string trackListUri;
+        private readonly Contest contest;
 
-        public KvrTrackLoader(string trackListUri)
+        public KvrTrackLoader(Contest contest)
         {
-            this.trackListUri = trackListUri; 
-            
+            this.contest = contest;            
         }
 
         public void BeginLoad()
         {
             WebClient wc = new WebClient();
-            Uri uri = new Uri(this.trackListUri, UriKind.Absolute);
+            Uri uri = new Uri(this.contest.LoadUrl, UriKind.Absolute);
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(wc_DownloadStringCompleted);
             wc.DownloadStringAsync(uri);
         }
@@ -29,7 +29,7 @@ namespace MusicRater
         {
             if (e.Error == null)
             {
-                string path = this.trackListUri.Substring(0,this.trackListUri.LastIndexOf('/')+1);
+                string path = this.contest.LoadUrl.Substring(0,this.contest.LoadUrl.LastIndexOf('/')+1);
                 LoadTrackList(e.Result, path);
             }
             else
@@ -40,18 +40,16 @@ namespace MusicRater
 
         void LoadTrackList(string xml, string prefix)
         {
-            var tracks = new List<Track>();
-            var criteria = new List<Criteria>();
-            criteria.Add(new Criteria("Song Writing"));
-            criteria.Add(new Criteria("Sounds"));
-            criteria.Add(new Criteria("Production"));
+            this.contest.Criteria.Add(new Criteria("Song Writing"));
+            this.contest.Criteria.Add(new Criteria("Sounds"));
+            this.contest.Criteria.Add(new Criteria("Production"));
             XDocument xdoc = XDocument.Parse(xml);
             foreach (var file in xdoc.Element("files").Elements("file"))
             {
                 string fileName = file.Attribute("name").Value;
                 if (fileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
                 {
-                    var t = new Track(from c in criteria select new Rating(c));
+                    var t = new Track(from c in this.contest.Criteria select new Rating(c));
                     var titleElement = file.Element("title");
                     if (titleElement != null)
                     {
@@ -76,11 +74,11 @@ namespace MusicRater
                         t.Title = index == -1 ? nameOnly : nameOnly.Substring(index + 1);
                     }
                     t.Url = prefix + fileName;
-                    tracks.Add(t);
+                    this.contest.Tracks.Add(t);
                 }
             }
-            Shuffle(tracks, new Random());
-            RaiseLoadedEvent(new LoadedEventArgs() { Tracks = tracks });
+            Shuffle(this.contest.Tracks, new Random());
+            RaiseLoadedEvent(new LoadedEventArgs() { Tracks = this.contest.Tracks });
         }
 
         public void RaiseLoadedEvent(LoadedEventArgs args)

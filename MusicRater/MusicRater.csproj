@@ -93,6 +93,7 @@
     <Compile Include="DummyViewModels\DummyConfigWindowViewModel.cs" />
     <Compile Include="DummyViewModels\DummyRatingControlViewModel.cs" />
     <Compile Include="DummyViewModels\DummyTrackListControlViewModel.cs" />
+    <Compile Include="Model\Contest.cs" />
     <Compile Include="MvvmUtils\DialogCloser.cs" />
     <Compile Include="Persistence\IIsolatedStore.cs" />
     <Compile Include="Persistence\IsolatedStore.cs" />

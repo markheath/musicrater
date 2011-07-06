@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using Microsoft.Silverlight.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using MusicRater.Model;
 
 namespace MusicRater.Tests
 {
@@ -25,8 +26,8 @@ namespace MusicRater.Tests
             string fileName = "blah.xml";
             iso.Setup((x) => x.FileExists(fileName)).Returns(false);
             RatingsRepository rr = new RatingsRepository(iso.Object);
-            var r = rr.Load(fileName);
-            Assert.AreEqual(0, r.Count());
+            var r = rr.Load(new Contest(fileName,""));
+            Assert.IsFalse(r);
         }
     }
 }

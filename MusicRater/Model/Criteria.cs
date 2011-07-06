@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MusicRater
+namespace MusicRater.Model
 {
     public class Criteria
     {

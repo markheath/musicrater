@@ -10,6 +10,7 @@ using System.Windows.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MusicRater.ViewModels;
+using MusicRater.Model;
 
 namespace MusicRater
 {
@@ -20,8 +21,8 @@ namespace MusicRater
         private DispatcherTimer timer;
         private bool dirtyFlag;
         private bool isLoading;
-        private string contestFileName = "KVR-OSC-29.xml";
-
+        private Contest contest;
+        
         public MainPageViewModel(MediaElement me)
         {
             this.me = me;
@@ -44,9 +45,11 @@ namespace MusicRater
             this.PrevCommand = new RelayCommand(() => Prev());
             this.AnonCommand = new AnonymiseCommand(this.Tracks);
 
-            //"http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml"
-            var kvrLoader = new KvrTrackLoader("http://www.archive.org/download/KvrOsc29StringTheory/KvrOsc29StringTheory_files.xml");
-            var isoLoader = new IsolatedStoreTrackLoader(contestFileName, new IsolatedStore());
+            //"http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml"            
+            this.contest = new Contest("KVR-OSC-29.xml", "http://www.archive.org/download/KvrOsc29StringTheory/KvrOsc29StringTheory_files.xml");
+
+            var kvrLoader = new KvrTrackLoader(this.contest);
+            var isoLoader = new IsolatedStoreTrackLoader(this.contest, new IsolatedStore());
             ITrackLoader loader = new CombinedTrackLoader(kvrLoader, isoLoader);
             loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
             this.IsLoading = true;
@@ -74,19 +77,14 @@ namespace MusicRater
                 {
                     var trackViewModel = new TrackViewModel(t);
                     trackViewModel.AnonymousMode = this.AnonCommand.AnonymousMode;
-                    trackViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(trackViewModel_PropertyChanged);
+                    trackViewModel.PropertyChanged += (s, args) => this.dirtyFlag = true;
                     this.Tracks.Add(trackViewModel);
                 }
                 this.SelectedTrack = this.Tracks.Where(t => !t.IsExcluded).FirstOrDefault();
             }
             this.IsLoading = false;
         }
-
-        void trackViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            this.dirtyFlag = true;
-        }
-
+        
         void timer_Tick(object sender, EventArgs e)
         {
             if (me.CurrentState == MediaElementState.Playing)
@@ -97,7 +95,7 @@ namespace MusicRater
             {
                 using (RatingsRepository repo = new RatingsRepository(new IsolatedStore()))
                 { 
-                    repo.Save(this.Tracks, this.contestFileName);
+                    repo.Save(this.contest);
                 }
                 dirtyFlag = false;
             }

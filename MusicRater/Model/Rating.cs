@@ -5,7 +5,7 @@ using System.Text;
 using GalaSoft.MvvmLight;
 using System.Diagnostics;
 
-namespace MusicRater
+namespace MusicRater.Model
 {
     public class Rating : ViewModelBase
     {
