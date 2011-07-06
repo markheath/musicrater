@@ -39,8 +39,8 @@ namespace MusicRater
             timer.Start();
 
             this.Tracks = new ObservableCollection<TrackViewModel>();
-            this.PlayCommand = new RelayCommand(() => Play());
-            this.PauseCommand = new RelayCommand(() => Pause());
+            this.PlayCommand = new RelayCommand(() => me.Play());
+            this.PauseCommand = new RelayCommand(() => me.Pause());
             this.NextCommand = new RelayCommand(() => Next());
             this.PrevCommand = new RelayCommand(() => Prev());
             this.AnonCommand = new AnonymiseCommand(this.Tracks);
@@ -139,16 +139,6 @@ namespace MusicRater
             {
                 this.me.Position = TimeSpan.FromSeconds(value);
             }
-        }
-
-        private void Play()
-        {            
-            me.Play();
-        }
-
-        private void Pause()
-        {
-            me.Pause();
         }
 
         private void Next()
