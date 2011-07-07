@@ -15,6 +15,8 @@ using Moq;
 using MusicRater.Model;
 using System.IO;
 using System.Collections.Generic;
+using System.Xml.Linq;
+using System.Text;
 
 namespace MusicRater.Tests
 {
@@ -46,7 +48,7 @@ namespace MusicRater.Tests
             var contest = new Contest("blah.xml", "http://ignored");
 
             var loaded = repo.Load(contest);
-            
+
             Assert.IsTrue(loaded);
             Assert.AreEqual(3, contest.Criteria.Count, "Criteria Count");
             Assert.AreEqual("Criteria 1", contest.Criteria[0].Name);
@@ -87,10 +89,33 @@ namespace MusicRater.Tests
 
             Assert.IsTrue(loaded);
             List<Rating> subRatings = new List<Rating>(contest.Tracks[0].SubRatings);
-            Assert.AreEqual(3, subRatings.Count, "SubRatings Count");                        
+            Assert.AreEqual(3, subRatings.Count, "SubRatings Count");
             Assert.AreEqual(5, subRatings[0].Value);
             Assert.AreEqual(6, subRatings[1].Value);
             Assert.AreEqual(7, subRatings[2].Value);
+        }
+
+        [TestMethod]
+        public void SaveShouldCreateValidXmlFile()
+        {
+            var repo = builder.Build();
+            var contest = new ContestBuilder().Build();
+            repo.Save(contest);
+            XDocument xdoc = XDocument.Parse(builder.SavedXml);
+            Assert.AreEqual(1, xdoc.Elements("Tracks").Count());
+        }
+    }
+
+    class ContestBuilder
+    {
+        public string FileName = "blah.xml";
+        public string LoadUrl = "http://ignored.com/blah.xml";
+
+        public Contest Build()
+        {
+            var contest = new Contest(FileName, LoadUrl);
+
+            return contest;
         }
     }
 
@@ -100,17 +125,29 @@ namespace MusicRater.Tests
         {
             FileExists = true;
             Xml = "";
+            this.outputStream = new IgnoreDisposeStream();
         }
 
         public bool FileExists { get; set; }
         public string Xml { get; set; }
+        public string SavedXml { get { return Encoding.UTF8.GetString(outputStream.GetBuffer(), 0, (int)outputStream.Length); } }
+        private MemoryStream outputStream;
 
         public RatingsRepository Build()
         {
             var iso = new Mock<IIsolatedStore>();
             iso.Setup((x) => x.FileExists(It.IsAny<string>())).Returns(FileExists);
-            iso.Setup((x) => x.OpenFile(It.IsAny<string>())).Returns(new MemoryStream(System.Text.UTF8Encoding.UTF8.GetBytes(Xml)));
+            iso.Setup((x) => x.OpenFile(It.IsAny<string>())).Returns(() => new MemoryStream(System.Text.UTF8Encoding.UTF8.GetBytes(Xml)));
+            iso.Setup((x) => x.CreateFile(It.IsAny<string>())).Returns(outputStream);
             return new RatingsRepository(iso.Object);
+        }
+    }
+
+    class IgnoreDisposeStream : MemoryStream
+    {
+        protected override void Dispose(bool disposing)
+        {
+            //base.Dispose(disposing);
         }
     }
 }
