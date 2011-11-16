@@ -47,7 +47,8 @@ namespace MusicRater
 
             //"http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml"
             //"http://www.archive.org/download/KvrOsc29StringTheory/KvrOsc29StringTheory_files.xml"
-            this.contest = new Contest("KVR-OSC-30.xml", "http://www.archive.org/download/KvrOsc30FarbrauschV2/KvrOsc30FarbrauschV2_files.xml");
+            //"http://www.archive.org/download/KvrOsc30FarbrauschV2/KvrOsc30FarbrauschV2_files.xml"
+            this.contest = new Contest("KVR-OSC-33.xml", "http://www.archive.org/download/KvrOsc33Charlatan/KvrOsc33Charlatan_files.xml");
 
             var kvrLoader = new KvrTrackLoader(this.contest);
             var isoLoader = new IsolatedStoreTrackLoader(this.contest, new IsolatedStore());
