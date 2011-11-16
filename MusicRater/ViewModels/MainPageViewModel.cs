@@ -44,6 +44,7 @@ namespace MusicRater
             this.NextCommand = new RelayCommand(() => Next());
             this.PrevCommand = new RelayCommand(() => Prev());
             this.AnonCommand = new AnonymiseCommand(this.Tracks);
+            this.ConfigCommand = new RelayCommand(() => Config());
 
             //"http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml"
             //"http://www.archive.org/download/KvrOsc29StringTheory/KvrOsc29StringTheory_files.xml"
@@ -166,12 +167,20 @@ namespace MusicRater
         public ICommand PauseCommand { get; private set; }
         public ICommand NextCommand { get; private set; }
         public ICommand PrevCommand { get; private set; }
+        public ICommand ConfigCommand { get; private set; }
         public AnonymiseCommand AnonCommand { get; private set; }
 
         private void ShowError(string message)
         {
             ErrorMessageWindow w = new ErrorMessageWindow();
-            w.DataContext = new ErrorMessageWindowViewModel() { Message = message };            
+            w.DataContext = new ErrorMessageWindowViewModel() { Message = message };
+            w.Show();
+        }
+
+        private void Config()
+        {
+            var w = new ConfigWindow();
+            w.DataContext = new ConfigWindowViewModel(this.contest.Criteria);
             w.Show();
         }
 

@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace MusicRater.Views
+namespace MusicRater
 {
     public partial class ConfigWindow : ChildWindow
     {

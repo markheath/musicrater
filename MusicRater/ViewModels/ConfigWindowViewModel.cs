@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System;
 using MusicRater.Model;
 
-namespace MusicRater.ViewModels
+namespace MusicRater
 {
     public class ConfigWindowViewModel : ViewModelBase
     {
