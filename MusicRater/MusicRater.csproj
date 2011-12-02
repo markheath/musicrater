@@ -104,6 +104,7 @@
     <Compile Include="DummyViewModels\DummyMainWindowViewModel.cs" />
     <Compile Include="DummyViewModels\DummyPositionControlViewModel.cs" />
     <Compile Include="ViewModels\ConfigWindowViewModel.cs" />
+    <Compile Include="ViewModels\OpenContestWindowViewModel.cs" />
     <Compile Include="Views\ConfigWindow.xaml.cs">
       <DependentUpon>ConfigWindow.xaml</DependentUpon>
     </Compile>
@@ -124,6 +125,9 @@
     </Compile>
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ModalDialogService.cs" />
+    <Compile Include="Views\OpenContestWindow.xaml.cs">
+      <DependentUpon>OpenContestWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PositionControl.xaml.cs">
       <DependentUpon>PositionControl.xaml</DependentUpon>
     </Compile>
@@ -175,6 +179,10 @@
     <Page Include="ResourceDictionaries\MarkRoundButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\OpenContestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PositionControl.xaml">
       <SubType>Designer</SubType>

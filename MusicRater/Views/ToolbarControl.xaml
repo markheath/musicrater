@@ -47,8 +47,12 @@
                     <Path.RenderTransform>
                         <RotateTransform Angle="-45" CenterX="8" CenterY="8" />
                     </Path.RenderTransform>
-                    </Path>
+                </Path>
             </Button>
+            <Button Style="{StaticResource MarkRoundButton}" Height="32" Margin="2" Width="32" Command="{Binding OpenCommand}" ToolTipService.ToolTip="Open">
+                <Path Fill="White" Data="F1 M 0,4 h 4 v -1 h -4 Z M 0,2 h 4 l -2,-2  Z" Stretch="UniformToFill" Width="16" Height="16" />
+            </Button>
+
         </StackPanel>
     </Border>
 </UserControl>
