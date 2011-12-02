@@ -16,15 +16,18 @@ namespace MusicRater
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private MediaElement me;        
+        private MediaElement me;
         private TrackViewModel selectedTrack;
         private DispatcherTimer timer;
         private bool dirtyFlag;
         private bool isLoading;
         private Contest contest;
+        private IIsolatedStore isoStore;
         
-        public MainPageViewModel(MediaElement me)
+        public MainPageViewModel(MediaElement me, IIsolatedStore isolatedStore)
         {
+            this.isoStore = isolatedStore;
+
             this.me = me;
             this.me.AutoPlay = false;
             this.me.BufferingProgressChanged += (s, e) => { this.BufferingProgress = me.BufferingProgress; RaisePropertyChanged("BufferingProgress"); };
@@ -54,7 +57,7 @@ namespace MusicRater
             this.contest = new Contest("KVR-OSC-34.xml", "http://www.archive.org/download/KvrOsc34Sonigen/KvrOsc34Sonigen_files.xml");
 
             var kvrLoader = new KvrTrackLoader(this.contest);
-            var isoLoader = new IsolatedStoreTrackLoader(this.contest, new IsolatedStore());
+            var isoLoader = new IsolatedStoreTrackLoader(this.contest, this.isoStore);
             ITrackLoader loader = new CombinedTrackLoader(kvrLoader, isoLoader);
             loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
             this.IsLoading = true;
@@ -98,10 +101,8 @@ namespace MusicRater
             }
             if (dirtyFlag == true)
             {
-                using (RatingsRepository repo = new RatingsRepository(new IsolatedStore()))
-                { 
-                    repo.Save(this.contest);
-                }
+                RatingsRepository repo = new RatingsRepository(this.isoStore);
+                repo.Save(this.contest);
                 dirtyFlag = false;
             }
         }
@@ -190,7 +191,7 @@ namespace MusicRater
         private void Open()
         {
             var w = new OpenContestWindow();
-            w.DataContext = new OpenContestWindowViewModel();
+            w.DataContext = new OpenContestWindowViewModel(this.isoStore);
             w.Show();
         }
 

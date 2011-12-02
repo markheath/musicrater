@@ -17,13 +17,18 @@ using MusicRater.Model;
 
 namespace MusicRater
 {
-    public class RatingsRepository : IDisposable
+    public class RatingsRepository
     {
         private readonly IIsolatedStore isolatedStore;
 
         public RatingsRepository(IIsolatedStore isolatedStore)
         {
             this.isolatedStore = isolatedStore;
+        }
+
+        public IEnumerable<string> GetContestFiles()
+        {
+            return this.isolatedStore.GetFileNames("*.xml");
         }
 
         public void Save(Contest contest)
@@ -106,11 +111,6 @@ namespace MusicRater
                 t.Comments = trackNode.Element("Comments").Value;
             }
             return t;
-        }
-
-        public void Dispose()
-        {
-            this.isolatedStore.Dispose();
         }
     }
 }

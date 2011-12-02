@@ -10,6 +10,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.IO.IsolatedStorage;
 using System.IO;
+using System.Collections.Generic;
 
 namespace MusicRater
 {
@@ -41,6 +42,11 @@ namespace MusicRater
         {
             this.isoStore.Dispose();
             GC.SuppressFinalize(this);
+        }
+
+        public IEnumerable<string> GetFileNames(string pattern)
+        {
+            return isoStore.GetFileNames(pattern);
         }
     }
 }

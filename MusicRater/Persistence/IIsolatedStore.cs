@@ -6,10 +6,11 @@ using System.IO;
 
 namespace MusicRater
 {
-    public interface IIsolatedStore : IDisposable
+    public interface IIsolatedStore
     {
         bool FileExists(string fileName);
         Stream CreateFile(string fileName);
         Stream OpenFile(string fileName);
+        IEnumerable<string> GetFileNames(string pattern);
     }
 }

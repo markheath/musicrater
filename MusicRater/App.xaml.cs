@@ -27,7 +27,7 @@ namespace MusicRater
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             var mainPage = new MainPage();
-            mainPage.DataContext = new MainPageViewModel(mainPage.mediaElement1);
+            mainPage.DataContext = new MainPageViewModel(mainPage.mediaElement1, new IsolatedStore());
             this.RootVisual = mainPage;
         }
 

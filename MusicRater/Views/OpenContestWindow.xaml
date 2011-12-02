@@ -6,11 +6,22 @@
            Title="OpenContestWindow">
     <Grid x:Name="LayoutRoot" Margin="2">
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="190*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,0,0" Grid.Row="1" />
-        <Button x:Name="OKButton" Content="OK" Click="OKButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,79,0" Grid.Row="1" />
+        <ListBox ItemsSource="{Binding ContestFiles}">
+            
+        </ListBox>
+        <StackPanel Grid.Row="1" Margin="2" >
+            <TextBlock VerticalAlignment="Center" Margin="2,0">
+                To add a new contest, enter the URL for the Archive.org XML files list and click Add:
+            </TextBlock>
+            <TextBox Grid.Row="1" Width="300" HorizontalAlignment="Left" />
+        </StackPanel>
+        
+        
+        <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,0,0" Grid.Row="2" />
+        <Button x:Name="OKButton" Content="OK" Click="OKButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,79,0" Grid.Row="2" />
     </Grid>
 </controls:ChildWindow>
