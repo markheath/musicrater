@@ -26,12 +26,12 @@ namespace MusicRater
         
         public MainPageViewModel(MediaElement me, IIsolatedStore isolatedStore)
         {
-            this.isoStore = isolatedStore;
+            isoStore = isolatedStore;
 
             this.me = me;
             this.me.AutoPlay = false;
             this.me.BufferingProgressChanged += (s, e) => { this.BufferingProgress = me.BufferingProgress; RaisePropertyChanged("BufferingProgress"); };
-            this.me.MediaFailed += (s, e) => this.ShowError("Error loading " + me.Source.ToString()); // e.ErrorException.Message
+            this.me.MediaFailed += (s, e) => ShowError("Error loading " + me.Source.ToString()); // e.ErrorException.Message
             this.me.MediaOpened += me_MediaOpened;
             this.me.MediaEnded += (s, e) => { SelectedTrack.Listens++; Next(); };
             this.me.DownloadProgressChanged += (s, e) => { this.DownloadProgress = me.DownloadProgress * 100; RaisePropertyChanged("DownloadProgress"); };
@@ -55,12 +55,13 @@ namespace MusicRater
             //"http://www.archive.org/download/KvrOsc30FarbrauschV2/KvrOsc30FarbrauschV2_files.xml"
             //"http://www.archive.org/download/KvrOsc33Charlatan/KvrOsc33Charlatan_files.xml"
             //"http://www.archive.org/download/KvrOsc34Sonigen/KvrOsc34Sonigen_files.xml"
-            this.contest = new Contest("KVR-OSC-35.xml", "http://www.archive.org/download/KvrOsc35Diva/KvrOsc35Diva_files.xml");
+            //"http://www.archive.org/download/KvrOsc35Diva/KvrOsc35Diva_files.xml"
+            this.contest = new Contest("KVR-OSC-46.xml", "http://www.archive.org/download/KvrOsc46TripleCheese/KvrOsc46TripleCheese_files.xml");
 
             var kvrLoader = new KvrTrackLoader(this.contest);
             var isoLoader = new IsolatedStoreTrackLoader(this.contest, this.isoStore);
             ITrackLoader loader = new CombinedTrackLoader(kvrLoader, isoLoader);
-            loader.Loaded += new EventHandler<LoadedEventArgs>(loader_Loaded);
+            loader.Loaded += loader_Loaded;
             this.IsLoading = true;
             loader.BeginLoad();
         }
@@ -89,7 +90,7 @@ namespace MusicRater
                     trackViewModel.PropertyChanged += (s, args) => this.dirtyFlag = true;
                     this.Tracks.Add(trackViewModel);
                 }
-                this.SelectedTrack = this.Tracks.Where(t => !t.IsExcluded).FirstOrDefault();
+                SelectedTrack = Tracks.FirstOrDefault(t => !t.IsExcluded);
             }
             this.IsLoading = false;
         }
@@ -100,9 +101,9 @@ namespace MusicRater
             {
                 this.RaisePropertyChanged("PlaybackPosition");
             }
-            if (dirtyFlag == true)
+            if (dirtyFlag)
             {
-                RatingsRepository repo = new RatingsRepository(this.isoStore);
+                var repo = new RatingsRepository(this.isoStore);
                 repo.Save(this.contest);
                 dirtyFlag = false;
             }
@@ -137,11 +138,11 @@ namespace MusicRater
         {
             get
             {
-                return this.me.Position.TotalSeconds;
+                return me.Position.TotalSeconds;
             }
             set
             {
-                this.me.Position = TimeSpan.FromSeconds(value);
+                me.Position = TimeSpan.FromSeconds(value);
             }
         }
 
@@ -157,7 +158,7 @@ namespace MusicRater
 
         private void SelectNext(IEnumerable<TrackViewModel> tracks)
         {
-            var nextTrack = tracks.OnceRoundStartingAfter(SelectedTrack).Where(t => !t.IsExcluded).FirstOrDefault();
+            var nextTrack = tracks.OnceRoundStartingAfter(SelectedTrack).FirstOrDefault(t => !t.IsExcluded);
             if (nextTrack != null)
             {
                 SelectedTrack = nextTrack;
@@ -177,7 +178,7 @@ namespace MusicRater
 
         private void ShowError(string message)
         {
-            ErrorMessageWindow w = new ErrorMessageWindow();
+            var w = new ErrorMessageWindow();
             w.DataContext = new ErrorMessageWindowViewModel() { Message = message };
             w.Show();
         }

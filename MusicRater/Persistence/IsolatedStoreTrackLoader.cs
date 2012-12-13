@@ -26,7 +26,7 @@ namespace MusicRater
 
         public void BeginLoad()
         {
-            RatingsRepository repo = new RatingsRepository(isoStore);
+            var repo = new RatingsRepository(isoStore);
             repo.Load(this.contest);
             
             KvrTrackLoader.Shuffle(this.contest.Tracks, new Random());
