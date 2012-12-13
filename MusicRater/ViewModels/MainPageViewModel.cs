@@ -16,13 +16,13 @@ namespace MusicRater
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private MediaElement me;
+        private readonly MediaElement me;
+        private readonly DispatcherTimer timer;
+        private readonly IIsolatedStore isoStore;
         private TrackViewModel selectedTrack;
-        private DispatcherTimer timer;
         private bool dirtyFlag;
         private bool isLoading;
         private Contest contest;
-        private IIsolatedStore isoStore;
         
         public MainPageViewModel(MediaElement me, IIsolatedStore isolatedStore)
         {
@@ -38,7 +38,7 @@ namespace MusicRater
 
             this.timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(500);
-            timer.Tick += new EventHandler(timer_Tick);
+            timer.Tick += OnTimerTick;
             timer.Start();
 
             this.Tracks = new ObservableCollection<TrackViewModel>();
@@ -56,12 +56,12 @@ namespace MusicRater
             //"http://www.archive.org/download/KvrOsc33Charlatan/KvrOsc33Charlatan_files.xml"
             //"http://www.archive.org/download/KvrOsc34Sonigen/KvrOsc34Sonigen_files.xml"
             //"http://www.archive.org/download/KvrOsc35Diva/KvrOsc35Diva_files.xml"
-            this.contest = new Contest("KVR-OSC-46.xml", "http://www.archive.org/download/KvrOsc46TripleCheese/KvrOsc46TripleCheese_files.xml");
+            //this.contest = new Contest("KVR-OSC-46.xml", "http://www.archive.org/download/KvrOsc46TripleCheese/KvrOsc46TripleCheese_files.xml");
 
-            var kvrLoader = new KvrTrackLoader(this.contest);
-            var isoLoader = new IsolatedStoreTrackLoader(this.contest, this.isoStore);
-            ITrackLoader loader = new CombinedTrackLoader(kvrLoader, isoLoader);
-            loader.Loaded += loader_Loaded;
+            var kvrLoader = new KvrContestLoader("KVR-OSC-46.xml", "http://www.archive.org/download/KvrOsc46TripleCheese/KvrOsc46TripleCheese_files.xml");
+            var isoLoader = new IsolatedStoreContestLoader("KVR-OSC-46.xml", isoStore);
+            IContestLoader loader = new CombinedContestLoader(kvrLoader, isoLoader);
+            loader.Loaded += OnContestLoaded;
             this.IsLoading = true;
             loader.BeginLoad();
         }
@@ -75,7 +75,7 @@ namespace MusicRater
             RaisePropertyChanged("DownloadProgress");
         }
 
-        void loader_Loaded(object sender, LoadedEventArgs e)
+        void OnContestLoaded(object sender, ContestLoadedEventArgs e)
         {
             if (e.Error != null)
             {
@@ -83,7 +83,8 @@ namespace MusicRater
             }
             else
             {
-                foreach (var t in e.Tracks)
+                this.contest = e.Contest;
+                foreach (var t in e.Contest.Tracks)
                 {
                     var trackViewModel = new TrackViewModel(t);
                     trackViewModel.AnonymousMode = this.AnonCommand.AnonymousMode;
@@ -95,7 +96,7 @@ namespace MusicRater
             this.IsLoading = false;
         }
         
-        void timer_Tick(object sender, EventArgs e)
+        void OnTimerTick(object sender, EventArgs e)
         {
             if (me.CurrentState == MediaElementState.Playing)
             {

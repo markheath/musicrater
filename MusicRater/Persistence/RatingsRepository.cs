@@ -1,15 +1,5 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.Collections.Generic;
-using System.IO.IsolatedStorage;
 using System.IO;
 using System.Xml.Linq;
 using System.Linq;
@@ -28,7 +18,7 @@ namespace MusicRater
 
         public IEnumerable<string> GetContestFiles()
         {
-            return this.isolatedStore.GetFileNames("*.xml");
+            return isolatedStore.GetFileNames("*.xml");
         }
 
         public void Save(Contest contest)
@@ -49,32 +39,51 @@ namespace MusicRater
                                              new XAttribute("Value", s.Value))
                                   )
                          );
-
-            var xelement = new XElement("Tracks", trackNodes);
+            
+            var tracksElement = new XElement("Tracks", trackNodes);
+            var contestElement = new XElement("Contest",
+                                              new XElement("LoadUrl", contest.LoadUrl),
+                                              new XElement("FileName", contest.FileName),
+                                              new XElement("Name", contest.Name),
+                                              tracksElement);
             using (var outWriter = new StreamWriter(isolatedStore.CreateFile(contest.FileName)))
             {
-                outWriter.Write(xelement.ToString());
+                outWriter.Write(contestElement.ToString());
             }
         }
 
-        public bool Load(Contest contest)
+        public Contest Load(string fileName)
         {
             var criteria = new Dictionary<string, Criteria>();
-            if (!isolatedStore.FileExists(contest.FileName))
+            if (!isolatedStore.FileExists(fileName))
             {
-                return false;
+                return null;
             }
-            using (var reader = isolatedStore.OpenFile(contest.FileName))
+            using (var reader = isolatedStore.OpenFile(fileName))
             {
-                XDocument doc = XDocument.Load(reader);
+                var contest = new Contest(fileName);
+                var doc = XDocument.Load(reader);
                 foreach (var trackNode in doc.Element("Tracks").Elements("Track"))
                 {
                     var track = CreateTrackFromNode(trackNode, criteria);
                     contest.Tracks.Add(track);
                 }
                 contest.Criteria.AddRange(criteria.Values);
+
+                var contestElement = doc.Element("Contest");
+                if (contestElement != null)
+                {
+
+                    var loadUrlElement = doc.Element("LoadUrl");
+                    if (loadUrlElement != null)
+                        contest.LoadUrl = loadUrlElement.Value;
+
+                    var nameElement = doc.Element("Name");
+                    if (nameElement != null)
+                        contest.Name = nameElement.Value;
+                }
+                return contest;
             }
-            return true;
         }
 
         private Track CreateTrackFromNode(XElement trackNode, Dictionary<string, Criteria> criteriaDictionary)
@@ -90,11 +99,11 @@ namespace MusicRater
                     c = new Criteria(criteriaName, Int32.Parse(node.Attribute("Weight").Value));
                     criteriaDictionary.Add(criteriaName, c);
                 }
-                Rating r = new Rating(c);
+                var r = new Rating(c);
                 r.Value = Int32.Parse(node.Attribute("Value").Value);
                 ratings.Add(r);
             }
-            Track t = new Track(ratings);
+            var t = new Track(ratings);
             t.Author = trackNode.Attribute("Author").Value;
             t.Title = trackNode.Attribute("Title").Value;
             t.Url = trackNode.Attribute("Url").Value;

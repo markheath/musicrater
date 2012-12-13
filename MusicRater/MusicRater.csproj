@@ -98,7 +98,7 @@
     <Compile Include="Persistence\IIsolatedStore.cs" />
     <Compile Include="Persistence\IsolatedStore.cs" />
     <Compile Include="MvvmUtils\BoolToVisibilityConverter.cs" />
-    <Compile Include="Persistence\CombinedTrackLoader.cs" />
+    <Compile Include="Persistence\CombinedContestLoader.cs" />
     <Compile Include="Model\Criteria.cs" />
     <Compile Include="DummyViewModels\DummyErrorMessageViewModel.cs" />
     <Compile Include="DummyViewModels\DummyMainWindowViewModel.cs" />
@@ -111,9 +111,9 @@
     <Compile Include="Views\ErrorMessageWindow.xaml.cs">
       <DependentUpon>ErrorMessageWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Persistence\IsolatedStoreTrackLoader.cs" />
-    <Compile Include="Persistence\ITrackLoader.cs" />
-    <Compile Include="Persistence\KvrTrackLoader.cs" />
+    <Compile Include="Persistence\IsolatedStoreContestLoader.cs" />
+    <Compile Include="Persistence\IContestLoader.cs" />
+    <Compile Include="Persistence\KvrContestLoader.cs" />
     <Compile Include="MvvmUtils\ExtensionMethods.cs" />
     <Compile Include="MvvmUtils\SecondsToTimeDisplayConverter.cs" />
     <Compile Include="ViewModels\AnonymiseCommand.cs" />

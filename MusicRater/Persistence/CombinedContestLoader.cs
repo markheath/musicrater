@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace MusicRater
 {
-    public class CombinedTrackLoader : ITrackLoader
+    public class CombinedContestLoader : IContestLoader
     {
-        private readonly ITrackLoader firstTimeLoader;
-        private readonly ITrackLoader subsequentLoader;
+        private readonly IContestLoader firstTimeLoader;
+        private readonly IContestLoader subsequentLoader;
 
-        public CombinedTrackLoader(ITrackLoader firstTimeLoader, ITrackLoader subsequentLoader)
+        public CombinedContestLoader(IContestLoader firstTimeLoader, IContestLoader subsequentLoader)
         {
             this.firstTimeLoader = firstTimeLoader;
             this.subsequentLoader = subsequentLoader;
@@ -20,9 +20,9 @@ namespace MusicRater
             subsequentLoader.BeginLoad();
         }
 
-        void loader_Loaded(object sender, LoadedEventArgs e)
+        void loader_Loaded(object sender, ContestLoadedEventArgs e)
         {
-            if (e.Error == null && e.Tracks.Count() > 0)
+            if (e.Error == null && e.Contest != null)
             {
                 RaiseLoadedEvent(e);
             }
@@ -33,7 +33,7 @@ namespace MusicRater
             }
         }
 
-        private void RaiseLoadedEvent(LoadedEventArgs e)
+        private void RaiseLoadedEvent(ContestLoadedEventArgs e)
         {
             if (Loaded != null)
             {
@@ -41,6 +41,6 @@ namespace MusicRater
             }
         }
 
-        public event EventHandler<LoadedEventArgs> Loaded;
+        public event EventHandler<ContestLoadedEventArgs> Loaded;
     }
 }
