@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -17,19 +17,18 @@ namespace MusicRater
 {
     public class OpenContestWindowViewModel : ViewModelBase
     {
-        public ObservableCollection<Contest> Contests { get; private set; }
+        public ObservableCollection<ContestInfo> Contests { get; private set; }
         
-
         public OpenContestWindowViewModel(IIsolatedStore store)
         {
-            this.Contests = new ObservableCollection<Contest>();
+            this.Contests = new ObservableCollection<ContestInfo>();
             
             var repo = new RatingsRepository(store);
             
             foreach(var fileName in store.GetFileNames("*.xml"))
             {
-                repo.Load(fileName);
-
+                var c = repo.Load(fileName);
+                this.Contests.Add(new ContestInfo() { IsoStoreFileName = fileName, Name = c.Name, TrackListUrl = c.TrackListUrl});
             }
 
             AddKnownContests();
@@ -37,21 +36,24 @@ namespace MusicRater
 
         private void AddKnownContests()
         {
-            foreach (var contestUrl in knownContests)
+            foreach (var contestInfo in knownContests)
             {
-                
+                if (Contests.All(c => c.TrackListUrl != contestInfo.TrackListUrl))
+                {
+                    Contests.Add(contestInfo);
+                }
             }
         }
 
 
-        private static readonly List<string> knownContests = new List<string>()
+        private static readonly List<ContestInfo> knownContests = new List<ContestInfo>()
             {
-                "http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml",
-                "http://www.archive.org/download/KvrOsc29StringTheory/KvrOsc29StringTheory_files.xml",
-                "http://www.archive.org/download/KvrOsc30FarbrauschV2/KvrOsc30FarbrauschV2_files.xml",
-                "http://www.archive.org/download/KvrOsc33Charlatan/KvrOsc33Charlatan_files.xml",
-                "http://www.archive.org/download/KvrOsc34Sonigen/KvrOsc34Sonigen_files.xml",
-                "http://www.archive.org/download/KvrOsc35Diva/KvrOsc35Diva_files.xml",
+                new ContestInfo() { IsoStoreFileName = "OSC28.xml", Name="OSC 28 (Tyrell N6)", TrackListUrl="http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml" },
+                new ContestInfo() { IsoStoreFileName = "OSC29.xml", Name="OSC 29 (String Theory)", TrackListUrl="http://www.archive.org/download/KvrOsc29StringTheory/KvrOsc29StringTheory_files.xml" },
+                new ContestInfo() { IsoStoreFileName = "OSC30.xml", Name="OSC 30 (Farbrausch V2)", TrackListUrl="http://www.archive.org/download/KvrOsc30FarbrauschV2/KvrOsc30FarbrauschV2_files.xml" },
+                new ContestInfo() { IsoStoreFileName = "OSC33.xml", Name="OSC 33 (Charlatan)", TrackListUrl="http://www.archive.org/download/KvrOsc33Charlatan/KvrOsc33Charlatan_files.xml" },
+                new ContestInfo() { IsoStoreFileName = "OSC34.xml", Name="OSC 34 (Sonigen)", TrackListUrl="http://www.archive.org/download/KvrOsc34Sonigen/KvrOsc34Sonigen_files.xml" },
+                new ContestInfo() { IsoStoreFileName = "OSC35.xml", Name="OSC 35 (Diva)", TrackListUrl="http://www.archive.org/download/KvrOsc35Diva/KvrOsc35Diva_files.xml" },
             };
 
     }

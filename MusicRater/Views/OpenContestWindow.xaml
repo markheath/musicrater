@@ -10,7 +10,12 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListBox ItemsSource="{Binding ContestFiles}">
+        <ListBox ItemsSource="{Binding Contests}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"></TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
             
         </ListBox>
         <StackPanel Grid.Row="1" Margin="2" >
