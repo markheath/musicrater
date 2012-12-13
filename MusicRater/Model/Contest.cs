@@ -17,9 +17,11 @@ namespace MusicRater.Model
     /// </summary>
     public class Contest
     {
-        public Contest(string fileName)
+        private readonly ContestInfo contestInfo;
+
+        public Contest(ContestInfo contestInfo)
         {
-            FileName = fileName;
+            this.contestInfo = contestInfo;
             Criteria = new List<Criteria>();
             Tracks = new List<Track>();
         }
@@ -27,12 +29,12 @@ namespace MusicRater.Model
         /// <summary>
         /// The Filename that should be used to save this contest within isolated store
         /// </summary>
-        public string FileName { get; private set; }
+        public string FileName { get { return contestInfo.IsoStoreFileName; } }
 
         /// <summary>
         /// The URL to load contest track info from (KVR OSC metadata on archive.org only supported at the moment)
         /// </summary>
-        public string LoadUrl { get; set; }
+        public string TrackListUrl { get { return contestInfo.TrackListUrl; } }
 
         /// <summary>
         /// The judging criteria for this contest
@@ -47,6 +49,6 @@ namespace MusicRater.Model
         /// <summary>
         /// A friendly name for this contest
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get { return contestInfo.Name; } }
     }
 }

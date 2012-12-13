@@ -7,17 +7,17 @@ using MusicRater.Model;
 
 namespace MusicRater
 {
-    public class KvrContestLoader : IContestLoader
+    public class KvrTrackListLoader
     {
-        public event EventHandler<ContestLoadedEventArgs> Loaded;
+        public event EventHandler<LoadedEventArgs<List<Track>>> Loaded;
 
-        private readonly string fileName;
         private readonly string loadUrl;
+        private readonly Criteria[] defaultCriteria;
 
-        public KvrContestLoader(string fileName, string loadUrl)
+        public KvrTrackListLoader(string loadUrl, Criteria[] defaultCriteria)
         {
-            this.fileName = fileName;
             this.loadUrl = loadUrl;
+            this.defaultCriteria = defaultCriteria;
         }
 
         public void BeginLoad()
@@ -37,23 +37,20 @@ namespace MusicRater
             }
             else
             {
-                OnLoaded(new ContestLoadedEventArgs(e.Error));
+                OnLoaded(new LoadedEventArgs<List<Track>>(e.Error));
             }
         }
 
         void LoadTrackList(string xml, string prefix)
         {
-            var contest = new Contest(fileName);
-            contest.Criteria.Add(new Criteria("Song Writing"));
-            contest.Criteria.Add(new Criteria("Sounds"));
-            contest.Criteria.Add(new Criteria("Production"));
-            XDocument xdoc = XDocument.Parse(xml);
+            var tracks = new List<Track>();
+            var xdoc = XDocument.Parse(xml);
             foreach (var file in xdoc.Element("files").Elements("file"))
             {
                 string audioFileName = file.Attribute("name").Value;
                 if (audioFileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
                 {
-                    var t = new Track(from c in contest.Criteria select new Rating(c));
+                    var t = new Track(from c in defaultCriteria select new Rating(c));
                     var titleElement = file.Element("title");
                     if (titleElement != null)
                     {
@@ -78,11 +75,11 @@ namespace MusicRater
                         t.Title = index == -1 ? nameOnly : nameOnly.Substring(index + 1);
                     }
                     t.Url = prefix + audioFileName;
-                    contest.Tracks.Add(t);
+                    tracks.Add(t);
                 }
             }
-            Shuffle(contest.Tracks, new Random());
-            OnLoaded(new ContestLoadedEventArgs(contest));
+            Shuffle(tracks, new Random());
+            OnLoaded(new LoadedEventArgs<List<Track>> (tracks));
         }
 
         public static void Shuffle<T>(IList<T> list, Random rng)
@@ -99,10 +96,11 @@ namespace MusicRater
         }
 
 
-        protected virtual void OnLoaded(ContestLoadedEventArgs e)
+        protected virtual void OnLoaded(LoadedEventArgs<List<Track>>  e)
         {
-            EventHandler<ContestLoadedEventArgs> handler = Loaded;
+            EventHandler<LoadedEventArgs<List<Track>>> handler = Loaded;
             if (handler != null) handler(this, e);
         }
     }
+
 }

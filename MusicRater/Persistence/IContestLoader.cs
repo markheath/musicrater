@@ -13,25 +13,19 @@ using MusicRater.Model;
 
 namespace MusicRater
 {
-    public interface IContestLoader
+    public class LoadedEventArgs<T> : EventArgs
     {
-        void BeginLoad();
-        event EventHandler<ContestLoadedEventArgs> Loaded;
-    }
-
-    public class ContestLoadedEventArgs : EventArgs
-    {
-        public ContestLoadedEventArgs(Contest contest)
+        public LoadedEventArgs(T result)
         {
-            Contest = contest;
+            Result = result;
         }
 
-        public ContestLoadedEventArgs(Exception error)
+        public LoadedEventArgs(Exception error)
         {
             Error = error;
         }
 
         public Exception Error { get; set; }
-        public Contest Contest { get; private set; }
+        public T Result { get; private set; }
     }
 }

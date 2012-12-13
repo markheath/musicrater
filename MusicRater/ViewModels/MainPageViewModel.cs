@@ -58,9 +58,20 @@ namespace MusicRater
             //"http://www.archive.org/download/KvrOsc35Diva/KvrOsc35Diva_files.xml"
             //this.contest = new Contest("KVR-OSC-46.xml", "http://www.archive.org/download/KvrOsc46TripleCheese/KvrOsc46TripleCheese_files.xml");
 
-            var kvrLoader = new KvrContestLoader("KVR-OSC-46.xml", "http://www.archive.org/download/KvrOsc46TripleCheese/KvrOsc46TripleCheese_files.xml");
-            var isoLoader = new IsolatedStoreContestLoader("KVR-OSC-46.xml", isoStore);
-            IContestLoader loader = new CombinedContestLoader(kvrLoader, isoLoader);
+            var contestInfo = new ContestInfo()
+                                  {
+                                      IsoStoreFileName = "KVR-OSC-46.xml",
+                                      TrackListUrl = "http://www.archive.org/download/KvrOsc46TripleCheese/KvrOsc46TripleCheese_files.xml",
+                                      Name = "OSC 46 (Triple Cheese)"
+                                  };
+            var defaultCriteria = new[]
+                                      {
+                                          new Criteria("Songwriting"),
+                                          new Criteria("Sound Design"),
+                                          new Criteria("Production")
+                                      };
+
+            var loader = new ContestLoader(contestInfo, isoStore, defaultCriteria);
             loader.Loaded += OnContestLoaded;
             this.IsLoading = true;
             loader.BeginLoad();
@@ -75,7 +86,7 @@ namespace MusicRater
             RaisePropertyChanged("DownloadProgress");
         }
 
-        void OnContestLoaded(object sender, ContestLoadedEventArgs e)
+        void OnContestLoaded(object sender, LoadedEventArgs<Contest> e)
         {
             if (e.Error != null)
             {
@@ -83,8 +94,8 @@ namespace MusicRater
             }
             else
             {
-                this.contest = e.Contest;
-                foreach (var t in e.Contest.Tracks)
+                this.contest = e.Result;
+                foreach (var t in e.Result.Tracks)
                 {
                     var trackViewModel = new TrackViewModel(t);
                     trackViewModel.AnonymousMode = this.AnonCommand.AnonymousMode;

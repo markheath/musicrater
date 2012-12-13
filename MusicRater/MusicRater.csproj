@@ -94,11 +94,12 @@
     <Compile Include="DummyViewModels\DummyRatingControlViewModel.cs" />
     <Compile Include="DummyViewModels\DummyTrackListControlViewModel.cs" />
     <Compile Include="Model\Contest.cs" />
+    <Compile Include="Model\ContestInfo.cs" />
     <Compile Include="MvvmUtils\DialogCloser.cs" />
     <Compile Include="Persistence\IIsolatedStore.cs" />
     <Compile Include="Persistence\IsolatedStore.cs" />
     <Compile Include="MvvmUtils\BoolToVisibilityConverter.cs" />
-    <Compile Include="Persistence\CombinedContestLoader.cs" />
+    <Compile Include="Persistence\ContestLoader.cs" />
     <Compile Include="Model\Criteria.cs" />
     <Compile Include="DummyViewModels\DummyErrorMessageViewModel.cs" />
     <Compile Include="DummyViewModels\DummyMainWindowViewModel.cs" />
@@ -113,7 +114,7 @@
     </Compile>
     <Compile Include="Persistence\IsolatedStoreContestLoader.cs" />
     <Compile Include="Persistence\IContestLoader.cs" />
-    <Compile Include="Persistence\KvrContestLoader.cs" />
+    <Compile Include="Persistence\KvrTrackListLoader.cs" />
     <Compile Include="MvvmUtils\ExtensionMethods.cs" />
     <Compile Include="MvvmUtils\SecondsToTimeDisplayConverter.cs" />
     <Compile Include="ViewModels\AnonymiseCommand.cs" />

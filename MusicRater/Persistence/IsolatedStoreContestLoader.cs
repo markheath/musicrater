@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.Collections.Generic;
 using MusicRater.Model;
 
 namespace MusicRater
 {
-    public class IsolatedStoreContestLoader : IContestLoader
+    public class IsolatedStoreContestLoader
     {
         private readonly IIsolatedStore isoStore;
         private readonly string fileName;
@@ -24,23 +14,16 @@ namespace MusicRater
             this.isoStore = isoStore;
         }
 
-        public void BeginLoad()
+        public Contest Load()
         {
             var repo = new RatingsRepository(isoStore);
-            var contest = repo.Load(this.fileName);
+            var contest = repo.Load(fileName);
             if (contest != null)
             {
-                KvrContestLoader.Shuffle(contest.Tracks, new Random());
+                KvrTrackListLoader.Shuffle(contest.Tracks, new Random());
             }
-            OnLoaded(new ContestLoadedEventArgs(contest));
+            return contest;
         }
 
-        public event EventHandler<ContestLoadedEventArgs> Loaded;
-
-        protected virtual void OnLoaded(ContestLoadedEventArgs e)
-        {
-            EventHandler<ContestLoadedEventArgs> handler = Loaded;
-            if (handler != null) handler(this, e);
-        }
     }
 }

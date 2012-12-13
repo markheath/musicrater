@@ -43,6 +43,7 @@ namespace MusicRater
             }
         }
 
+
         private static readonly List<string> knownContests = new List<string>()
             {
                 "http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml",
@@ -54,4 +55,7 @@ namespace MusicRater
             };
 
     }
+
+
+
 }

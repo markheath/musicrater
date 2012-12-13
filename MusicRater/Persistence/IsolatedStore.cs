@@ -20,7 +20,7 @@ namespace MusicRater
 
         public IsolatedStore()
         {
-            this.isoStore = IsolatedStorageFile.GetUserStoreForApplication();
+            isoStore = IsolatedStorageFile.GetUserStoreForApplication();
         }
 
         public bool FileExists(string fileName)
@@ -40,7 +40,7 @@ namespace MusicRater
 
         public void Dispose()
         {
-            this.isoStore.Dispose();
+            isoStore.Dispose();
             GC.SuppressFinalize(this);
         }
 

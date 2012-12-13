@@ -42,7 +42,7 @@ namespace MusicRater
             
             var tracksElement = new XElement("Tracks", trackNodes);
             var contestElement = new XElement("Contest",
-                                              new XElement("LoadUrl", contest.LoadUrl),
+                                              new XElement("TrackListUrl", contest.TrackListUrl),
                                               new XElement("FileName", contest.FileName),
                                               new XElement("Name", contest.Name),
                                               tracksElement);
@@ -61,9 +61,10 @@ namespace MusicRater
             }
             using (var reader = isolatedStore.OpenFile(fileName))
             {
-                var contest = new Contest(fileName);
+                var contestInfo = new ContestInfo() {IsoStoreFileName = fileName};
+                var contest = new Contest(contestInfo);
                 var doc = XDocument.Load(reader);
-                foreach (var trackNode in doc.Element("Tracks").Elements("Track"))
+                foreach (var trackNode in doc.Element("Contest").Element("Tracks").Elements("Track"))
                 {
                     var track = CreateTrackFromNode(trackNode, criteria);
                     contest.Tracks.Add(track);
@@ -74,13 +75,13 @@ namespace MusicRater
                 if (contestElement != null)
                 {
 
-                    var loadUrlElement = doc.Element("LoadUrl");
+                    var loadUrlElement = doc.Element("TrackListUrl");
                     if (loadUrlElement != null)
-                        contest.LoadUrl = loadUrlElement.Value;
+                        contestInfo.TrackListUrl = loadUrlElement.Value;
 
                     var nameElement = doc.Element("Name");
                     if (nameElement != null)
-                        contest.Name = nameElement.Value;
+                        contestInfo.Name = nameElement.Value;
                 }
                 return contest;
             }
