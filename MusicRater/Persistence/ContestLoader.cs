@@ -37,13 +37,13 @@ namespace MusicRater
         {
             if (e.Error == null && e.Result != null)
             {
-                OnLoaded(new LoadedEventArgs<Contest>(e.Error));
-            }
-            else
-            {
                 var contest = new Contest(contestInfo);
                 contest.Tracks.AddRange(e.Result);
                 OnLoaded(new LoadedEventArgs<Contest>(contest));
+            }
+            else
+            {
+                OnLoaded(new LoadedEventArgs<Contest>(e.Error));
             }
         }
 

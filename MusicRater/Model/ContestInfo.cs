@@ -6,6 +6,21 @@
     public class ContestInfo
     {
         /// <summary>
+        /// Default constructor
+        /// </summary>
+        public ContestInfo()
+        {
+            
+        }
+
+        public ContestInfo(string isoStoreFileName, string name, string trackListUrl)
+        {
+            this.IsoStoreFileName = isoStoreFileName;
+            this.Name = name;
+            this.TrackListUrl = trackListUrl;
+        }
+
+        /// <summary>
         /// A friendly name for this contest
         /// </summary>
         public string Name { get; set; }

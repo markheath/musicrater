@@ -23,7 +23,19 @@ namespace MusicRater
         private bool dirtyFlag;
         private bool isLoading;
         private Contest contest;
-        
+
+        private static readonly List<ContestInfo> knownContests = new List<ContestInfo>()
+            {
+                new ContestInfo("OSC28.xml", "OSC 28 (Tyrell N6)", "http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml"),
+                new ContestInfo("OSC29.xml", "OSC 29 (String Theory)", "http://www.archive.org/download/KvrOsc29StringTheory/KvrOsc29StringTheory_files.xml"),
+                new ContestInfo("OSC30.xml", "OSC 30 (Farbrausch V2)", "http://www.archive.org/download/KvrOsc30FarbrauschV2/KvrOsc30FarbrauschV2_files.xml"),
+                new ContestInfo("OSC33.xml", "OSC 33 (Charlatan)", "http://www.archive.org/download/KvrOsc33Charlatan/KvrOsc33Charlatan_files.xml"),
+                new ContestInfo("OSC34.xml", "OSC 34 (Sonigen)", "http://www.archive.org/download/KvrOsc34Sonigen/KvrOsc34Sonigen_files.xml"),
+                new ContestInfo("OSC35.xml", "OSC 35 (Diva)", "http://www.archive.org/download/KvrOsc35Diva/KvrOsc35Diva_files.xml"),
+                new ContestInfo("OSC46.xml", "OSC 46 (Triple Cheese)", "http://www.archive.org/download/KvrOsc46TripleCheese/KvrOsc46TripleCheese_files.xml"),
+                new ContestInfo("KVR-OSC-47.xml", "OSC 47 (Bazille)", "http://www.archive.org/download/KvrOsc47Bazille/KvrOsc47Bazille_files.xml"),
+            };
+
         public MainPageViewModel(MediaElement me, IIsolatedStore isolatedStore)
         {
             isoStore = isolatedStore;
@@ -42,27 +54,29 @@ namespace MusicRater
             timer.Start();
 
             this.Tracks = new ObservableCollection<TrackViewModel>();
-            this.PlayCommand = new RelayCommand(() => me.Play());
-            this.PauseCommand = new RelayCommand(() => me.Pause());
+            this.PlayCommand = new RelayCommand(() => this.me.Play());
+            this.PauseCommand = new RelayCommand(() => this.me.Pause());
             this.NextCommand = new RelayCommand(() => Next());
             this.PrevCommand = new RelayCommand(() => Prev());
-            this.AnonCommand = new AnonymiseCommand(this.Tracks);
+            this.AnonCommand = new AnonymiseCommand(Tracks);
             this.ConfigCommand = new RelayCommand(() => Config());
             this.OpenCommand = new RelayCommand(() => Open());
 
-            //"http://www.archive.org/download/KvrOsc28TyrellN6/KvrOsc28TyrellN6_files.xml"
-            //"http://www.archive.org/download/KvrOsc29StringTheory/KvrOsc29StringTheory_files.xml"
-            //"http://www.archive.org/download/KvrOsc30FarbrauschV2/KvrOsc30FarbrauschV2_files.xml"
-            //"http://www.archive.org/download/KvrOsc33Charlatan/KvrOsc33Charlatan_files.xml"
-            //"http://www.archive.org/download/KvrOsc34Sonigen/KvrOsc34Sonigen_files.xml"
-            //"http://www.archive.org/download/KvrOsc35Diva/KvrOsc35Diva_files.xml"
-            //this.contest = new Contest("KVR-OSC-46.xml", "http://www.archive.org/download/KvrOsc46TripleCheese/KvrOsc46TripleCheese_files.xml");
 
-            var contestInfo = new ContestInfo()
+
+
+
+            /*var contestInfo = new ContestInfo()
                                   {
                                       IsoStoreFileName = "KVR-OSC-46.xml",
                                       TrackListUrl = "http://www.archive.org/download/KvrOsc46TripleCheese/KvrOsc46TripleCheese_files.xml",
                                       Name = "OSC 46 (Triple Cheese)"
+                                  };*/
+            var contestInfo = new ContestInfo()
+                                  {
+                                      IsoStoreFileName = "KVR-OSC-47.xml",
+                                      TrackListUrl = "http://www.archive.org/download/KvrOsc47Bazille/KvrOsc47Bazille_files.xml",
+                                      Name = "OSC 47 (Bazille)"
                                   };
             var defaultCriteria = new[]
                                       {
@@ -198,14 +212,14 @@ namespace MusicRater
         private void Config()
         {
             var w = new ConfigWindow();
-            w.DataContext = new ConfigWindowViewModel(this.contest.Criteria);
+            w.DataContext = new ConfigWindowViewModel(contest.Criteria);
             w.Show();
         }
 
         private void Open()
         {
             var w = new OpenContestWindow();
-            w.DataContext = new OpenContestWindowViewModel(this.isoStore);
+            w.DataContext = new OpenContestWindowViewModel(isoStore, knownContests);
             w.Show();
         }
 
