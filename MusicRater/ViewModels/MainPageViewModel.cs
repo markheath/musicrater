@@ -62,22 +62,6 @@ namespace MusicRater
             this.ConfigCommand = new RelayCommand(() => Config());
             this.OpenCommand = new RelayCommand(() => Open());
 
-
-
-
-
-            /*var contestInfo = new ContestInfo()
-                                  {
-                                      IsoStoreFileName = "KVR-OSC-46.xml",
-                                      TrackListUrl = "http://www.archive.org/download/KvrOsc46TripleCheese/KvrOsc46TripleCheese_files.xml",
-                                      Name = "OSC 46 (Triple Cheese)"
-                                  };*/
-            var contestInfo = new ContestInfo()
-                                  {
-                                      IsoStoreFileName = "KVR-OSC-47.xml",
-                                      TrackListUrl = "http://www.archive.org/download/KvrOsc47Bazille/KvrOsc47Bazille_files.xml",
-                                      Name = "OSC 47 (Bazille)"
-                                  };
             var defaultCriteria = new[]
                                       {
                                           new Criteria("Songwriting"),
@@ -85,9 +69,9 @@ namespace MusicRater
                                           new Criteria("Production")
                                       };
 
-            var loader = new ContestLoader(contestInfo, isoStore, defaultCriteria);
+            var loader = new ContestLoader(knownContests.Last(), isoStore, defaultCriteria);
             loader.Loaded += OnContestLoaded;
-            this.IsLoading = true;
+            IsLoading = true;
             loader.BeginLoad();
         }
 
