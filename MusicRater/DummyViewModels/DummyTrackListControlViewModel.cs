@@ -40,7 +40,7 @@ namespace MusicRater.DummyViewModels
         public Track Build()
         {
             var t = new Track();
-            t.Rating = random.Next(10);
+            t.Rating = random.Next(20);
             t.Author = "Someone";
             t.Listens = random.Next(10);
             t.Title = "Track " + (++track).ToString();

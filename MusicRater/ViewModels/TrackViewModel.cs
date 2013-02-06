@@ -90,8 +90,14 @@ namespace MusicRater
                 {
                     track.Rating = value;
                     RaisePropertyChanged("Rating");
+                    RaisePropertyChanged("DisplayRating");
                 }
             }
+        }
+
+        public decimal DisplayRating
+        {
+            get { return track.Rating/2M; }
         }
 
         public int Listens
