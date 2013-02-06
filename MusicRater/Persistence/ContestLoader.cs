@@ -11,11 +11,11 @@ namespace MusicRater
         private readonly IsolatedStoreContestLoader isoLoader;
         private readonly KvrTrackListLoader kvrLoader;
 
-        public ContestLoader(ContestInfo contestInfo, IIsolatedStore isoStore, Criteria[] defaultCriteria)
+        public ContestLoader(ContestInfo contestInfo, IIsolatedStore isoStore)
         {
             this.contestInfo = contestInfo;
             this.isoLoader = new IsolatedStoreContestLoader(contestInfo.IsoStoreFileName, isoStore);
-            this.kvrLoader = new KvrTrackListLoader(contestInfo.TrackListUrl, defaultCriteria);
+            this.kvrLoader = new KvrTrackListLoader(contestInfo.TrackListUrl);
             
         }
 

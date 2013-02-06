@@ -1,14 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.Collections.Generic;
+﻿using System.Windows.Media;
 using GalaSoft.MvvmLight;
 using MusicRater.Model;
 
@@ -16,15 +6,11 @@ namespace MusicRater
 {
     public class TrackViewModel : ViewModelBase
     {
-        private Track track;
+        private readonly Track track;
 
         public TrackViewModel(Track track)
         {
             this.track = track;
-            foreach (var rating in track.SubRatings)
-            {
-                rating.PropertyChanged += (s, e) => RaisePropertyChanged("Rating");
-            }
         }
 
         public string Title
@@ -81,11 +67,6 @@ namespace MusicRater
             }
         }
 
-        public double Rating
-        {
-            get { return track.Rating; }
-        }
-
         private readonly static Brush enabledBrush = new SolidColorBrush(Colors.Black);
         private readonly static Brush disabledBrush = new SolidColorBrush(Colors.Gray);
 
@@ -94,6 +75,22 @@ namespace MusicRater
             get
             {
                 return IsExcluded ? disabledBrush : enabledBrush;
+            }
+        }
+
+        public int Rating
+        {
+            get
+            {
+                return track.Rating;
+            }
+            set
+            {
+                if (track.Rating != value)
+                {
+                    track.Rating = value;
+                    RaisePropertyChanged("Rating");
+                }
             }
         }
 
@@ -111,11 +108,6 @@ namespace MusicRater
                     RaisePropertyChanged("Listens");
                 }
             }
-        }
-
-        public IEnumerable<Rating> SubRatings
-        {
-            get { return track.SubRatings; }
         }
 
         private bool anonymousMode;

@@ -22,7 +22,6 @@ namespace MusicRater.Model
         public Contest(ContestInfo contestInfo)
         {
             this.contestInfo = contestInfo;
-            Criteria = new List<Criteria>();
             Tracks = new List<Track>();
         }
 
@@ -35,11 +34,6 @@ namespace MusicRater.Model
         /// The URL to load contest track info from (KVR OSC metadata on archive.org only supported at the moment)
         /// </summary>
         public string TrackListUrl { get { return contestInfo.TrackListUrl; } }
-
-        /// <summary>
-        /// The judging criteria for this contest
-        /// </summary>
-        public List<Criteria> Criteria { get; private set; }
 
         /// <summary>
         /// The tracks contained within this contest

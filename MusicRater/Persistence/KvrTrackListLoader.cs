@@ -12,12 +12,10 @@ namespace MusicRater
         public event EventHandler<LoadedEventArgs<List<Track>>> Loaded;
 
         private readonly string loadUrl;
-        private readonly Criteria[] defaultCriteria;
 
-        public KvrTrackListLoader(string loadUrl, Criteria[] defaultCriteria)
+        public KvrTrackListLoader(string loadUrl)
         {
             this.loadUrl = loadUrl;
-            this.defaultCriteria = defaultCriteria;
         }
 
         public void BeginLoad()
@@ -50,7 +48,7 @@ namespace MusicRater
                 string audioFileName = file.Attribute("name").Value;
                 if (audioFileName.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
                 {
-                    var t = new Track(from c in defaultCriteria select new Rating(c));
+                    var t = new Track();
                     var titleElement = file.Element("title");
                     if (titleElement != null)
                     {

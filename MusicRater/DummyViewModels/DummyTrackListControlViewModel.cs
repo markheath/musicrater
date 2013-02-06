@@ -18,7 +18,7 @@ namespace MusicRater.DummyViewModels
         public DummyTrackListControlViewModel()
         {
             this.Tracks = new List<TrackViewModel>();
-            DummyTrackBuilder builder = new DummyTrackBuilder();
+            var builder = new DummyTrackBuilder();
             for (int n = 0; n < 20; n++)
             {
                 this.Tracks.Add(new TrackViewModel(builder.Build()));
@@ -31,36 +31,20 @@ namespace MusicRater.DummyViewModels
     {
         private Random random;
         private int track;
-        private Criteria[] criteria;
 
         public DummyTrackBuilder()
         {
             random = new Random();
-            criteria = new Criteria[3];
-            criteria[0] = new Criteria("Sound");
-            criteria[1] = new Criteria("Production");
-            criteria[2] = new Criteria("Song-Writing");
         }
 
         public Track Build()
         {
-            Track t = new Track(CreateRatings());
+            var t = new Track();
+            t.Rating = random.Next(10);
             t.Author = "Someone";
             t.Listens = random.Next(10);
             t.Title = "Track " + (++track).ToString();
             return t;
-        }
-
-        private IEnumerable<Rating> CreateRatings()
-        {
-            List<Rating> ratings = new List<Rating>();
-            for (int n = 0; n < this.criteria.Length; n++)
-            {
-                Rating r = new Rating(criteria[n]);
-                r.Value = random.Next(10);
-                ratings.Add(r);
-            }
-            return ratings;
         }
     }
 }

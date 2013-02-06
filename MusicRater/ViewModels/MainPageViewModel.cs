@@ -60,17 +60,9 @@ namespace MusicRater
             this.NextCommand = new RelayCommand(() => Next());
             this.PrevCommand = new RelayCommand(() => Prev());
             this.AnonCommand = new AnonymiseCommand(Tracks);
-            this.ConfigCommand = new RelayCommand(() => Config());
             this.OpenCommand = new RelayCommand(() => Open());
 
-            var defaultCriteria = new[]
-                                      {
-                                          new Criteria("Songwriting"),
-                                          new Criteria("Sound Design"),
-                                          new Criteria("Production")
-                                      };
-
-            var loader = new ContestLoader(knownContests.Last(), isoStore, defaultCriteria);
+            var loader = new ContestLoader(knownContests.Last(), isoStore);
             loader.Loaded += OnContestLoaded;
             IsLoading = true;
             loader.BeginLoad();
@@ -191,13 +183,6 @@ namespace MusicRater
         {
             var w = new ErrorMessageWindow();
             w.DataContext = new ErrorMessageWindowViewModel() { Message = message };
-            w.Show();
-        }
-
-        private void Config()
-        {
-            var w = new ConfigWindow();
-            w.DataContext = new ConfigWindowViewModel(contest.Criteria);
             w.Show();
         }
 

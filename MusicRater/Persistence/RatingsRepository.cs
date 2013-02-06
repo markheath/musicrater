@@ -29,15 +29,9 @@ namespace MusicRater
                                      new XAttribute("Title", t.Title),
                                      new XAttribute("Url", t.Url),
                                      new XAttribute("Listens", t.Listens),
+                                     new XAttribute("Rating", t.Rating),
                                      new XAttribute("IsExcluded", t.IsExcluded),
-                                     new XElement("Comments", t.Comments),
-                                     new XElement("SubRatings",
-                                         from s in t.SubRatings
-                                         select new XElement("SubRating",
-                                             new XAttribute("Name", s.Name),
-                                             new XAttribute("Weight", s.Criteria.Weight),
-                                             new XAttribute("Value", s.Value))
-                                  )
+                                     new XElement("Comments", t.Comments)
                          );
             
             var tracksElement = new XElement("Tracks", trackNodes);
@@ -54,7 +48,6 @@ namespace MusicRater
 
         public Contest Load(string fileName)
         {
-            var criteria = new Dictionary<string, Criteria>();
             if (!isolatedStore.FileExists(fileName))
             {
                 return null;
@@ -66,10 +59,9 @@ namespace MusicRater
                 var doc = XDocument.Load(reader);
                 foreach (var trackNode in doc.Element("Contest").Element("Tracks").Elements("Track"))
                 {
-                    var track = CreateTrackFromNode(trackNode, criteria);
+                    var track = CreateTrackFromNode(trackNode);
                     contest.Tracks.Add(track);
                 }
-                contest.Criteria.AddRange(criteria.Values);
 
                 var contestElement = doc.Element("Contest");
                 if (contestElement != null)
@@ -87,39 +79,18 @@ namespace MusicRater
             }
         }
 
-        private Track CreateTrackFromNode(XElement trackNode, Dictionary<string, Criteria> criteriaDictionary)
+        private Track CreateTrackFromNode(XElement trackNode)
         {
-            var ratings = new List<Rating>();
-            // read the sub-ratings first
-            foreach (var node in trackNode.Element("SubRatings").Elements("SubRating"))
-            {
-                string criteriaName = node.Attribute("Name").Value;
-                Criteria c = null;
-                if (!criteriaDictionary.TryGetValue(criteriaName, out c))
-                {
-                    c = new Criteria(criteriaName, Int32.Parse(node.Attribute("Weight").Value));
-                    criteriaDictionary.Add(criteriaName, c);
-                }
-                var r = new Rating(c);
-                r.Value = Int32.Parse(node.Attribute("Value").Value);
-                ratings.Add(r);
-            }
-            var t = new Track(ratings);
+            var t = new Track();
             t.Author = trackNode.Attribute("Author").Value;
             t.Title = trackNode.Attribute("Title").Value;
             t.Url = trackNode.Attribute("Url").Value;
+            var ratingAttribute = trackNode.Attribute("Rating");
+            if (ratingAttribute != null) t.Rating = Int32.Parse(ratingAttribute.Value);
             t.Listens = Int32.Parse(trackNode.Attribute("Listens").Value);
             t.IsExcluded = Boolean.Parse(trackNode.Attribute("IsExcluded").Value);
-            if (trackNode.Element("PositiveComments") != null)
-            {
-                // load in legacy comments
-                t.Comments = trackNode.Element("PositiveComments").Value + "\r\n" +
-                    trackNode.Element("Suggestions").Value;
-            }
-            else if (trackNode.Element("Comments") != null)
-            {
-                t.Comments = trackNode.Element("Comments").Value;
-            }
+            var commentsAttribute = trackNode.Element("Comments");
+            if (commentsAttribute != null) t.Comments = commentsAttribute.Value;
             return t;
         }
     }

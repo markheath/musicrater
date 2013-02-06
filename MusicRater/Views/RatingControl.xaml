@@ -15,18 +15,10 @@
     </UserControl.Resources>
     <Border CornerRadius="5" Background="#304060">
         <StackPanel x:Name="LayoutRoot" >
-            <ItemsControl Margin="10,5" MinHeight="30" ItemsSource="{Binding SubRatings}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" FontFamily="Verdana" FontWeight="Bold" Foreground="White" Text="{Binding Name}" Width="100"/>
-                            <star:StarRatingControl Margin="10,1" Rating="{Binding Value, Mode=TwoWay}" Height="18" Width="90" />
-                            <!--<Slider Margin="10,0"  Value="{Binding Value, Mode=TwoWay}" Minimum="0" Maximum="10" Width="100"/>-->
-                            <!--<TextBlock VerticalAlignment="Center" Margin="10,0" FontFamily="Verdana" FontWeight="Bold" Foreground="White" Text="{Binding Value}" />-->
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <StackPanel Margin="10,5"  Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" FontFamily="Verdana" FontWeight="Bold" Foreground="White" Text="Rating" Width="100"/>
+                <star:StarRatingControl NumberOfStars="10" Margin="10,1" Rating="{Binding Rating, Mode=TwoWay}" Height="18" Width="180" />
+            </StackPanel>
             <TextBlock Margin="10,0" FontFamily="Verdana" Foreground="White" Text="Comments (What I liked, what could be improved...):" />
             <TextBox Height="60" Margin="10,0" Name="textBox1" AcceptsReturn="True" Text="{Binding Comments, Mode=TwoWay}" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto">
                 <i:Interaction.Behaviors>
