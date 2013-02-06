@@ -34,6 +34,7 @@ namespace MusicRater
                 new ContestInfo("OSC35.xml", "OSC 35 (Diva)", "http://www.archive.org/download/KvrOsc35Diva/KvrOsc35Diva_files.xml"),
                 new ContestInfo("OSC46.xml", "OSC 46 (Triple Cheese)", "http://www.archive.org/download/KvrOsc46TripleCheese/KvrOsc46TripleCheese_files.xml"),
                 new ContestInfo("KVR-OSC-47.xml", "OSC 47 (Bazille)", "http://www.archive.org/download/KvrOsc47Bazille/KvrOsc47Bazille_files.xml"),
+                new ContestInfo("KVR-OSC-48.xml", "OSC 48 (Voyager)", "http://archive.org/download/KvrOsc48Voyager/KvrOsc48Voyager_files.xml")
             };
 
         public MainPageViewModel(MediaElement me, IIsolatedStore isolatedStore)
